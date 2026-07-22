@@ -1,4 +1,4 @@
-const CACHE = "battle-lens-camera-v5";
+const CACHE = "battle-lens-camera-v6";
 const ASSETS = [
   "./", "index.html", "styles.css", "app.js", "manifest.webmanifest", "icon.svg",
   "team-koko.jpg", "team-gs-ces.jpg", "team-yusk.jpg"

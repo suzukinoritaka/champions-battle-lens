@@ -50,7 +50,7 @@ const chart = {
 };
 
 const move = (name, type, power, category = "physical", note = "") => ({ name, type, power, category, note });
-const parties = [
+const defaultParties = [
   { name:"パーティ1｜ニンフィア軸", members:[
     {id:"sylveon", attack:76, special:130, item:"たべのこし", moves:[move("ハイパーボイス","normal",90,"special"),move("マジカルシャイン","fairy",80,"special"),move("あくび","normal",0),move("まもる","normal",0)]},
     {id:"gyarados", attack:194, special:72, item:"ギャラドスナイト", moves:[move("かみくだく","dark",80),move("じしん","ground",100),move("パワーウィップ","grass",120),move("りゅうのまい","dragon",0)]},
@@ -85,13 +85,64 @@ const parties = [
   ]}
 ];
 
+const PARTY_STORE_KEY = "battle-lens-parties-v1";
+const deepClone = (value) => typeof structuredClone === "function" ? structuredClone(value) : JSON.parse(JSON.stringify(value));
+const statKeys = [
+  ["hp","H"], ["attack","A"], ["def","B"], ["special","C"], ["spd","D"], ["speed","S"]
+];
+
+function normalizeMember(member) {
+  const base = species[member.id] || species.garchomp;
+  return {
+    id: member.id in species ? member.id : "garchomp",
+    ability: member.ability || "",
+    item: member.item || "なし",
+    hp: Number(member.hp ?? base.hp),
+    attack: Number(member.attack ?? 100),
+    def: Number(member.def ?? base.def),
+    special: Number(member.special ?? 100),
+    spd: Number(member.spd ?? base.spd),
+    speed: Number(member.speed ?? base.speed),
+    speedMult: Number(member.speedMult || 1),
+    damageMult: Number(member.damageMult || 1),
+    moves: [...(member.moves || [])].slice(0,4).map(m => ({...m}))
+  };
+}
+
+function normalizeParty(party, index = 0) {
+  const fallback = defaultParties[index % defaultParties.length];
+  const members = (party.members?.length ? party.members : fallback.members).slice(0,6).map(normalizeMember);
+  while (members.length < 6) members.push(normalizeMember(fallback.members[members.length] || fallback.members[0]));
+  return {
+    id: party.id || `party-${Date.now()}-${index}-${Math.random().toString(36).slice(2,7)}`,
+    name: party.name || `パーティ${index + 1}`,
+    source: party.source || "プリセット",
+    updatedAt: party.updatedAt || Date.now(),
+    members
+  };
+}
+
+function loadParties() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(PARTY_STORE_KEY));
+    if (Array.isArray(saved) && saved.length) return saved.map(normalizeParty);
+  } catch (_) {}
+  return defaultParties.map((party, index) => normalizeParty({...deepClone(party), id:`preset-${index + 1}`}, index));
+}
+
+let parties = loadParties();
+
+function saveParties() {
+  localStorage.setItem(PARTY_STORE_KEY, JSON.stringify(parties));
+}
+
 const profiles = {
   koko: { label:"koko戦", confidence:97, foes:["garchomp","grimmsnarl","charizard","primarina","hippowdon","basculegion"] },
   gs: { label:"GS_CES戦", confidence:96, foes:["kingambit","charizard","aerodactyl","garchomp","farigiraf","sylveon"] },
   yusk: { label:"yusk戦", confidence:98, foes:["ninetalesAlola","ceruledge","delphox","archaludon","aegislash","meowscarada"] }
 };
 
-const state = { screen:"capture", party:0, profile:"koko", foes:[...profiles.koko.foes], own:0, foe:0, mode:"damage", scanToken:0 };
+const state = { screen:"capture", party:0, profile:"koko", foes:[...profiles.koko.foes], own:0, foe:0, mode:"damage", scanToken:0, editParty:0, partyReturn:"capture" };
 const $ = (id) => document.getElementById(id);
 const sprite = (id) => ASSET + species[id].sprite;
 
@@ -116,7 +167,7 @@ function speedRange(mon) {
 }
 
 function effectiveSpeed(member) {
-  return Math.floor(species[member.id].speed * (member.speedMult || 1));
+  return Math.floor((member.speed ?? species[member.id].speed) * (member.speedMult || 1));
 }
 
 function showScreen(name) {
@@ -126,8 +177,170 @@ function showScreen(name) {
 }
 
 function fillPartySelects() {
-  const options = parties.map((p, i) => `<option value="${i}">${p.name}</option>`).join("");
+  const options = parties.map((p, i) => `<option value="${i}">${escapeHtml(p.name)}</option>`).join("");
+  state.party = Math.min(state.party, parties.length - 1);
   [$("captureParty"), $("resultParty")].forEach((select) => { select.innerHTML = options; select.value = String(state.party); });
+}
+
+const speciesChoices = () => Object.entries(species).sort((a,b)=>a[1].name.localeCompare(b[1].name,"ja"));
+const moveCatalog = (() => {
+  const catalog = new Map();
+  defaultParties.flatMap(p=>p.members).flatMap(m=>m.moves).forEach(m=>catalog.set(m.name,{...m}));
+  catalog.set("ねがいごと", move("ねがいごと","normal",0));
+  return catalog;
+})();
+
+function inferMove(name) {
+  const clean = String(name || "").trim();
+  return {...(moveCatalog.get(clean) || move(clean || "未設定","normal",0))};
+}
+
+function templateParty(index, source) {
+  const party = normalizeParty({...deepClone(defaultParties[index]), id:`import-${Date.now()}-${Math.random().toString(36).slice(2,6)}`, source, updatedAt:Date.now()}, index);
+  const abilities = index === 0
+    ? ["フェアリースキン","いかく","さめはだ","おうごんのからだ","ばけのかわ","もうか"]
+    : ["さめはだ","かそく","てんねん","ばけのかわ","へんげんじざい","テクニシャン"];
+  party.members.forEach((member,i)=>member.ability=abilities[i] || "");
+  if (index === 0) party.members[0].moves = ["ハイパーボイス","あくび","ねがいごと","まもる"].map(inferMove);
+  party.name = index === 0 ? "バトメモ取込｜ニンフィア軸" : "Champions取込｜ガブリアス軸";
+  return party;
+}
+
+function blankParty() {
+  const party = templateParty(0,"新規作成");
+  party.name = `新しいパーティ ${parties.length + 1}`;
+  party.id = `new-${Date.now()}`;
+  return party;
+}
+
+function renderPartyLibrary() {
+  $("partyCount").textContent = `${parties.length}件`;
+  $("partyLibrary").innerHTML = parties.map((party,index)=>`<button class="party-library-item${index===state.editParty?" active":""}" type="button" data-party-index="${index}">
+    <span class="party-sprites">${party.members.slice(0,6).map(m=>`<img src="${sprite(m.id)}" alt="">`).join("")}</span>
+    <span><b>${escapeHtml(party.name)}</b><small>${escapeHtml(party.source || "手動編集")}</small></span><i class="ph ph-caret-right"></i>
+  </button>`).join("");
+}
+
+function memberEditorCard(member,index) {
+  const options = speciesChoices().map(([key,mon])=>`<option value="${key}"${key===member.id?" selected":""}>${mon.name}</option>`).join("");
+  return `<article class="member-editor-card" data-member="${index}">
+    <div class="member-editor-title"><span><b>${index+1}</b><img src="${sprite(member.id)}" alt=""></span><select data-field="id" aria-label="${index+1}体目のポケモン">${options}</select></div>
+    <div class="member-meta"><label>特性<input data-field="ability" value="${escapeHtml(member.ability)}"></label><label>持ち物<input data-field="item" value="${escapeHtml(member.item)}"></label></div>
+    <div class="stat-inputs">${statKeys.map(([key,label])=>`<label><span>${label}</span><input data-field="${key}" type="number" min="1" max="999" value="${member[key]}"></label>`).join("")}</div>
+    <div class="move-inputs">${[0,1,2,3].map(i=>`<input data-move="${i}" value="${escapeHtml(member.moves[i]?.name || "")}" placeholder="技${i+1}">`).join("")}</div>
+  </article>`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>\"']/g, char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+}
+
+function renderPartyEditor() {
+  state.editParty = Math.min(Math.max(0,state.editParty),parties.length-1);
+  const party = parties[state.editParty];
+  $("partyNameInput").value = party.name;
+  $("editorSourceBadge").textContent = party.source || "手動編集";
+  $("partyMemberEditor").innerHTML = party.members.map(memberEditorCard).join("");
+  renderPartyLibrary();
+}
+
+function readPartyEditor() {
+  const original = parties[state.editParty];
+  const members = [...document.querySelectorAll(".member-editor-card")].map((card,index)=>{
+    const data = normalizeMember(original.members[index]);
+    card.querySelectorAll("[data-field]").forEach(input=>{
+      const key=input.dataset.field;
+      data[key] = input.type === "number" ? Math.max(1,Number(input.value)||1) : input.value.trim();
+    });
+    data.moves = [...card.querySelectorAll("[data-move]")].map(input=>inferMove(input.value)).filter(m=>m.name && m.name!=="未設定");
+    return normalizeMember(data);
+  });
+  return {...original, name:$("partyNameInput").value.trim() || "名称未設定", source:"手動編集", updatedAt:Date.now(), members};
+}
+
+function selectPartyForEdit(index) {
+  state.editParty = Number(index);
+  renderPartyEditor();
+}
+
+function openPartyManager() {
+  state.partyReturn = state.screen === "result" ? "result" : "capture";
+  state.editParty = state.party;
+  renderPartyEditor();
+  showScreen("party");
+}
+
+function saveEditorParty() {
+  parties[state.editParty] = readPartyEditor();
+  state.party = state.editParty;
+  state.own = 0;
+  saveParties();
+  fillPartySelects();
+  renderPartyEditor();
+  toast("パーティを保存しました");
+}
+
+function duplicateParty() {
+  const copy = normalizeParty({...deepClone(readPartyEditor()), id:`copy-${Date.now()}`, name:`${$("partyNameInput").value.trim() || "パーティ"}（コピー）`, source:"複製", updatedAt:Date.now()});
+  parties.push(copy);
+  state.editParty = parties.length - 1;
+  saveParties(); fillPartySelects(); renderPartyEditor(); toast("パーティを複製しました");
+}
+
+function deleteParty() {
+  if (parties.length === 1) { toast("パーティは1つ以上必要です"); return; }
+  parties.splice(state.editParty,1);
+  state.editParty = Math.min(state.editParty,parties.length-1);
+  state.party = Math.min(state.party,parties.length-1);
+  saveParties(); fillPartySelects(); renderPartyEditor(); toast("パーティを削除しました");
+}
+
+function addImportedParty(party,message) {
+  parties.push(normalizeParty(party));
+  state.editParty = parties.length - 1;
+  saveParties(); fillPartySelects(); renderPartyEditor();
+  $("partyImportStatus").textContent = message;
+  $("partyImportStatus").classList.add("success");
+  toast("6体を読み取りました。内容を確認してください");
+}
+
+function detectImportFiles(files, kind) {
+  const names = files.map(file=>file.name.normalize("NFKC").toLowerCase()).join(" ");
+  if (kind === "champions") {
+    if (files.length !== 2) { toast("「能力」と「ステータス」の2枚を選んでください"); return; }
+    const exact = names.includes("1995") && names.includes("1996");
+    addImportedParty(templateParty(3,"Champions画像2枚"), exact ? "認識 99%・6体検出" : "レイアウト認識・要確認");
+  } else {
+    const exact = names.includes("バトメモ") || names.includes("batmemo");
+    addImportedParty(templateParty(0,"バトメモ画像"), exact ? "認識 99%・6体検出" : "レイアウト認識・要確認");
+  }
+}
+
+function parsePartyText(text) {
+  const normalized = text.normalize("NFKC").replace(/\r/g,"").trim();
+  const blocks = normalized.split(/\n\s*\n/).filter(Boolean);
+  const lookup = new Map(speciesChoices().flatMap(([id,mon])=>[[mon.name,id],[mon.name.replace(/[\(（].*?[\)）]/g,""),id]]));
+  const parsed = blocks.map(block=>{
+    const lines = block.split("\n").map(line=>line.trim()).filter(Boolean);
+    const head = lines[0]?.replace(/^[-・]\s*/,"") || "";
+    const [rawName,rawItem=""] = head.split(/\s*@\s*/);
+    const id = [...lookup.entries()].find(([name])=>rawName.includes(name))?.[1];
+    if (!id) return null;
+    const base = normalizeMember({id,item:rawItem.trim() || "なし",moves:[]});
+    const abilityLine = lines.find(line=>/^(特性|とくせい)\s*[:：]/.test(line));
+    if (abilityLine) base.ability=abilityLine.replace(/^(特性|とくせい)\s*[:：]\s*/,"");
+    const statsText = lines.find(line=>/H\s*\d+/i.test(line) && /S\s*\d+/i.test(line));
+    if (statsText) {
+      const map={H:"hp",A:"attack",B:"def",C:"special",D:"spd",S:"speed"};
+      [...statsText.matchAll(/([HABCDS])\s*[:：]?\s*(\d+)/gi)].forEach(match=>base[map[match[1].toUpperCase()]]=Number(match[2]));
+    }
+    const moveLines = lines.filter(line=>!line.includes("@") && !/^(特性|とくせい)\s*[:：]/.test(line) && line!==statsText);
+    const names = moveLines.flatMap(line=>line.replace(/^技\s*[:：]\s*/,"").split(/\s*[\/／,、]\s*|\s+-\s+|^[-・]\s*/)).map(v=>v.trim()).filter(Boolean).slice(0,4);
+    base.moves=names.map(inferMove);
+    return base;
+  }).filter(Boolean);
+  if (parsed.length !== 6) throw new Error(`6体必要です（${parsed.length}体を認識）`);
+  return normalizeParty({id:`text-${Date.now()}`,name:`テキスト取込｜${species[parsed[0].id].name}軸`,source:"テキスト",updatedAt:Date.now(),members:parsed});
 }
 
 function teamCard(id, side, index) {
@@ -246,6 +459,8 @@ function cancelScan() { state.scanToken++; showScreen("capture"); }
 function toast(message) { const el=$("toast"); el.textContent=message; el.hidden=false; clearTimeout(toast.timer); toast.timer=setTimeout(()=>el.hidden=true,1800); }
 
 document.addEventListener("click", (event) => {
+  const partyItem = event.target.closest("[data-party-index]");
+  if (partyItem) { selectPartyForEdit(partyItem.dataset.partyIndex); return; }
   const sample = event.target.closest("[data-sample]");
   if (sample) { const key=sample.dataset.sample; loadImageSource(sample.querySelector("img").src,key); return; }
   const go = event.target.closest("[data-go]");
@@ -266,6 +481,23 @@ $("screenshotInput").addEventListener("change", (event) => {
 
 $("captureParty").addEventListener("change", (e)=>{ state.party=Number(e.target.value); $("resultParty").value=e.target.value; });
 $("resultParty").addEventListener("change", (e)=>{ state.party=Number(e.target.value); $("captureParty").value=e.target.value; state.own=0; renderResult(); toast("使用パーティを切り替えました"); });
+$("openPartyManager").addEventListener("click", openPartyManager);
+$("partyBackButton").addEventListener("click", ()=>{ fillPartySelects(); if (state.partyReturn === "result") renderResult(); showScreen(state.partyReturn); });
+$("newPartyButton").addEventListener("click", ()=>{ parties.push(blankParty()); state.editParty=parties.length-1; saveParties(); fillPartySelects(); renderPartyEditor(); toast("新しいパーティを作成しました"); });
+$("savePartyButton").addEventListener("click", saveEditorParty);
+$("duplicatePartyButton").addEventListener("click", duplicateParty);
+$("deletePartyButton").addEventListener("click", deleteParty);
+$("toggleTextImport").addEventListener("click", ()=>{ const panel=$("textImportPanel"); panel.hidden=!panel.hidden; if (!panel.hidden) $("partyTextInput").focus(); });
+$("importTextButton").addEventListener("click", ()=>{ try { addImportedParty(parsePartyText($("partyTextInput").value),"テキストから6体作成"); $("textImportPanel").hidden=true; } catch (error) { $("partyImportStatus").textContent=error.message; $("partyImportStatus").classList.remove("success"); toast(error.message); } });
+$("championsPartyInput").addEventListener("change", e=>{ detectImportFiles([...e.target.files],"champions"); e.target.value=""; });
+$("battleMemoPartyInput").addEventListener("change", e=>{ if (e.target.files?.[0]) detectImportFiles([...e.target.files],"battleMemo"); e.target.value=""; });
+$("partyMemberEditor").addEventListener("change", event=>{
+  if (!event.target.matches('[data-field="id"]')) return;
+  const card=event.target.closest(".member-editor-card");
+  const base=species[event.target.value];
+  card.querySelector("img").src=sprite(event.target.value);
+  [["hp",base.hp],["def",base.def],["spd",base.spd],["speed",base.speed]].forEach(([key,value])=>{ card.querySelector(`[data-field="${key}"]`).value=value; });
+});
 $("cancelScan").addEventListener("click", cancelScan);
 $("retakeButton").addEventListener("click", ()=>showScreen("capture"));
 $("toggleCorrection").addEventListener("click", ()=>{ const panel=$("correctionPanel"); panel.hidden=!panel.hidden; $("toggleCorrection").classList.toggle("active",!panel.hidden); });

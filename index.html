@@ -52,6 +52,7 @@
         <div class="party-row">
           <label for="captureParty">自分のパーティ</label>
           <select id="captureParty" class="party-select"></select>
+          <button id="openPartyManager" class="party-manage-button" type="button"><i class="ph ph-users-three"></i> 管理</button>
         </div>
       </div>
 
@@ -135,6 +136,59 @@
           <div class="team-heading"><span>相手</span><small>タップして防御側を変更</small></div>
           <div id="foeTeam" class="team-list"></div>
         </aside>
+      </div>
+    </section>
+
+    <section id="partyScreen" class="screen party-screen" data-screen="party" hidden>
+      <div class="party-toolbar">
+        <button id="partyBackButton" class="toolbar-button" type="button"><i class="ph ph-arrow-left"></i> 戻る</button>
+        <div><p class="kicker">MY TEAM LIBRARY</p><h2>パーティ管理</h2></div>
+        <span class="party-storage-badge"><i class="ph ph-device-mobile"></i> このiPhone内に保存</span>
+        <button id="newPartyButton" class="acid-button" type="button"><i class="ph ph-plus"></i> 新規</button>
+      </div>
+
+      <div class="party-manager-grid">
+        <aside class="party-library-panel">
+          <div class="panel-heading"><span><b>登録パーティ</b><small id="partyCount">0件</small></span></div>
+          <div id="partyLibrary" class="party-library-list"></div>
+          <p><i class="ph ph-cloud-slash"></i> アカウント不要。画像もデータも外部送信しません。</p>
+        </aside>
+
+        <div class="party-workspace">
+          <section class="party-import-panel">
+            <div class="panel-heading"><span><b>取り込む</b><small>画像またはテキストから作成</small></span><span id="partyImportStatus" class="import-status">入力を選択</span></div>
+            <div class="import-grid">
+              <label class="import-card" for="championsPartyInput">
+                <input id="championsPartyInput" type="file" accept="image/*" multiple>
+                <i class="ph ph-images"></i><span><b>Champions 2枚</b><small>「能力」と「ステータス」</small></span>
+              </label>
+              <label class="import-card" for="battleMemoPartyInput">
+                <input id="battleMemoPartyInput" type="file" accept="image/*">
+                <i class="ph ph-image-square"></i><span><b>バトメモ画像</b><small>パーティ一覧1枚</small></span>
+              </label>
+              <button id="toggleTextImport" class="import-card" type="button">
+                <i class="ph ph-text-aa"></i><span><b>テキスト</b><small>6体を貼り付け</small></span>
+              </button>
+            </div>
+            <div id="textImportPanel" class="text-import-panel" hidden>
+              <textarea id="partyTextInput" placeholder="例：&#10;ニンフィア @ たべのこし&#10;特性: フェアリースキン&#10;H202 A76 B128 C130 D150 S82&#10;ハイパーボイス / あくび / ねがいごと / まもる"></textarea>
+              <button id="importTextButton" class="acid-button" type="button">テキストから作成</button>
+            </div>
+          </section>
+
+          <section class="party-editor">
+            <div class="party-editor-head">
+              <label>パーティ名<input id="partyNameInput" type="text" maxlength="40"></label>
+              <span id="editorSourceBadge" class="source-badge">手動編集</span>
+            </div>
+            <div id="partyMemberEditor" class="member-editor-grid"></div>
+            <div class="editor-actions">
+              <button id="deletePartyButton" class="toolbar-button danger" type="button"><i class="ph ph-trash"></i> 削除</button>
+              <button id="duplicatePartyButton" class="toolbar-button" type="button"><i class="ph ph-copy"></i> 複製</button>
+              <button id="savePartyButton" class="acid-button" type="button"><i class="ph ph-floppy-disk"></i> 保存して計算に使う</button>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
   </main>

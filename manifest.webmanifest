@@ -1,7 +1,7 @@
 {
   "name": "Battle Lens — 撮るだけダメ計",
   "short_name": "Battle Lens",
-  "description": "見せ合い画面を選ぶだけで相手6体を読み取り、ダメージ・素早さ・タイプ相性を比較する非公式ツール",
+  "description": "スクショやテキストからパーティを管理し、ダメージ・素早さ・タイプ相性を比較する非公式ツール",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
