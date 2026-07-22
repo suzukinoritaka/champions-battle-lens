@@ -1,4 +1,8 @@
 const ASSET = "";
+const LOCAL_API_OVERRIDE = ["127.0.0.1", "localhost"].includes(location.hostname)
+  ? new URLSearchParams(location.search).get("api")
+  : "";
+const ANALYSIS_API_URL = String(LOCAL_API_OVERRIDE || window.BATTLE_LENS_CONFIG?.analysisApiUrl || "").replace(/\/$/, "");
 
 const species = {
   sylveon: { name: "ニンフィア", sprite: "sylveon.png", types: ["fairy"], hp: 202, def: 128, spd: 150, speed: 82 },
@@ -93,18 +97,19 @@ const statKeys = [
 
 function normalizeMember(member) {
   const base = species[member.id] || species.garchomp;
+  const item = member.item || "なし";
   return {
     id: member.id in species ? member.id : "garchomp",
     ability: member.ability || "",
-    item: member.item || "なし",
+    item,
     hp: Number(member.hp ?? base.hp),
     attack: Number(member.attack ?? 100),
     def: Number(member.def ?? base.def),
     special: Number(member.special ?? 100),
     spd: Number(member.spd ?? base.spd),
     speed: Number(member.speed ?? base.speed),
-    speedMult: Number(member.speedMult || 1),
-    damageMult: Number(member.damageMult || 1),
+    speedMult: Number(member.speedMult || (item === "こだわりスカーフ" ? 1.5 : 1)),
+    damageMult: Number(member.damageMult || (item === "いのちのたま" ? 1.3 : 1)),
     moves: [...(member.moves || [])].slice(0,4).map(m => ({...m}))
   };
 }
@@ -136,13 +141,14 @@ function saveParties() {
   localStorage.setItem(PARTY_STORE_KEY, JSON.stringify(parties));
 }
 
-const profiles = {
-  koko: { label:"koko戦", confidence:97, foes:["garchomp","grimmsnarl","charizard","primarina","hippowdon","basculegion"] },
-  gs: { label:"GS_CES戦", confidence:96, foes:["kingambit","charizard","aerodactyl","garchomp","farigiraf","sylveon"] },
-  yusk: { label:"yusk戦", confidence:98, foes:["ninetalesAlola","ceruledge","delphox","archaludon","aegislash","meowscarada"] }
+const sampleLabels = { koko:"koko戦", gs:"GS_CES戦", yusk:"yusk戦" };
+const state = {
+  screen:"capture", party:0,
+  foes:["garchomp","grimmsnarl","charizard","primarina","hippowdon","basculegion"],
+  own:0, foe:0, mode:"damage", scanToken:0, scanController:null,
+  analysisConfidence:null, analysisLabel:"AI解析", analysisWarnings:[],
+  editParty:0, partyReturn:"capture"
 };
-
-const state = { screen:"capture", party:0, profile:"koko", foes:[...profiles.koko.foes], own:0, foe:0, mode:"damage", scanToken:0, editParty:0, partyReturn:"capture" };
 const $ = (id) => document.getElementById(id);
 const sprite = (id) => ASSET + species[id].sprite;
 
@@ -183,6 +189,21 @@ function fillPartySelects() {
 }
 
 const speciesChoices = () => Object.entries(species).sort((a,b)=>a[1].name.localeCompare(b[1].name,"ja"));
+const normalizeSpeciesLabel = (value) => String(value || "").normalize("NFKC").toLowerCase()
+  .replace(/ポケモン/g, "")
+  .replace(/[\s・･\-ー_()（）]/g, "");
+const speciesNameLookup = new Map(speciesChoices().flatMap(([id, mon]) => [
+  [normalizeSpeciesLabel(mon.name), id],
+  [normalizeSpeciesLabel(mon.name.replace(/[（(].*?[）)]/g, "")), id],
+]));
+[
+  ["アローラキュウコン", "ninetalesAlola"], ["アローラのキュウコン", "ninetalesAlola"],
+  ["キュウコンアローラ", "ninetalesAlola"], ["キュウコンアローラのすがた", "ninetalesAlola"],
+].forEach(([name, id]) => speciesNameLookup.set(normalizeSpeciesLabel(name), id));
+
+function speciesIdFromName(name) {
+  return speciesNameLookup.get(normalizeSpeciesLabel(name)) || null;
+}
 const moveCatalog = (() => {
   const catalog = new Map();
   defaultParties.flatMap(p=>p.members).flatMap(m=>m.moves).forEach(m=>catalog.set(m.name,{...m}));
@@ -304,15 +325,87 @@ function addImportedParty(party,message) {
   toast("6体を読み取りました。内容を確認してください");
 }
 
-function detectImportFiles(files, kind) {
-  const names = files.map(file=>file.name.normalize("NFKC").toLowerCase()).join(" ");
-  if (kind === "champions") {
-    if (files.length !== 2) { toast("「能力」と「ステータス」の2枚を選んでください"); return; }
-    const exact = names.includes("1995") && names.includes("1996");
-    addImportedParty(templateParty(3,"Champions画像2枚"), exact ? "認識 99%・6体検出" : "レイアウト認識・要確認");
-  } else {
-    const exact = names.includes("バトメモ") || names.includes("batmemo");
-    addImportedParty(templateParty(0,"バトメモ画像"), exact ? "認識 99%・6体検出" : "レイアウト認識・要確認");
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("画像を開けませんでした"));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function analyzeScreenshots(task, files, signal) {
+  if (!ANALYSIS_API_URL) throw new Error("AI解析APIがまだ公開設定されていません");
+  const images = await Promise.all(files.map(readFileAsDataUrl));
+  const response = await fetch(`${ANALYSIS_API_URL}/analyze`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ task, images }),
+    signal,
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok || !body.ok) throw new Error(body.error || "AI解析に失敗しました");
+  return body.result;
+}
+
+function orderedMembers(result) {
+  return [...result.members].sort((a, b) => a.slot - b.slot);
+}
+
+function analysisToFoes(result) {
+  const members = orderedMembers(result);
+  const unknown = members.filter((member) => !speciesIdFromName(member.species_name)).map((member) => member.species_name);
+  if (unknown.length) throw new Error(`未登録のポケモンを検出: ${unknown.join("、")}。認識修正候補へ追加が必要です`);
+  return members.map((member) => speciesIdFromName(member.species_name));
+}
+
+function analysisToParty(result, kind) {
+  const members = orderedMembers(result);
+  const unknown = members.filter((member) => !speciesIdFromName(member.species_name)).map((member) => member.species_name);
+  if (unknown.length) throw new Error(`未登録のポケモンを検出: ${unknown.join("、")}`);
+  const missingStats = members.filter((member) => Object.values(member.stats || {}).some((value) => value == null)).map((member) => member.species_name);
+  if (missingStats.length) throw new Error(`実数値を読み切れませんでした: ${missingStats.join("、")}`);
+
+  const converted = members.map((member) => normalizeMember({
+    id: speciesIdFromName(member.species_name),
+    ability: member.ability || "",
+    item: member.item || "なし",
+    hp: member.stats.hp,
+    attack: member.stats.attack,
+    def: member.stats.defense,
+    special: member.stats.sp_attack,
+    spd: member.stats.sp_defense,
+    speed: member.stats.speed,
+    moves: (member.moves || []).filter(Boolean).map(inferMove),
+  }));
+  const firstName = species[converted[0].id].name;
+  return normalizeParty({
+    id:`ai-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,
+    name:`AI取込｜${firstName}軸`,
+    source:kind === "champions" ? "Champions画像2枚・AI解析" : "バトメモ画像・AI解析",
+    updatedAt:Date.now(), members:converted,
+  });
+}
+
+async function detectImportFiles(files, kind) {
+  if (kind === "champions" && files.length !== 2) {
+    toast("「能力」と「ステータス」の2枚を選んでください", 4200);
+    return;
+  }
+  if (kind === "battleMemo" && files.length !== 1) return;
+  const status = $("partyImportStatus");
+  status.textContent = "AI解析中…";
+  status.classList.remove("success", "error");
+  try {
+    const task = kind === "champions" ? "party_champions" : "party_batmemo";
+    const result = await analyzeScreenshots(task, files);
+    const party = analysisToParty(result, kind);
+    const warning = result.warnings?.length ? "・要確認あり" : "";
+    addImportedParty(party, `AI認識 ${result.overall_confidence}%・6体検出${warning}`);
+  } catch (error) {
+    status.textContent = error.name === "AbortError" ? "解析を中止" : error.message;
+    status.classList.add("error");
+    toast(status.textContent, 5200);
   }
 }
 
@@ -407,8 +500,8 @@ function renderResult() {
   $("foeTeam").innerHTML = state.foes.map((id,i)=>teamCard(id,"foe",i)).join("");
   $("attackerHero").innerHTML = hero(attacker.id, attacker.item);
   $("defenderHero").innerHTML = hero(state.foes[state.foe], "相手配分を幅で計算");
-  $("confidenceText").textContent = `認識 ${profiles[state.profile]?.confidence || 82}%`;
-  $("profileText").textContent = `${profiles[state.profile]?.label || "選択画像"}・相手6体を検出`;
+  $("confidenceText").textContent = state.analysisConfidence == null ? "AI認識" : `AI認識 ${state.analysisConfidence}%`;
+  $("profileText").textContent = `${state.analysisLabel || "選択画像"}・相手6体を検出`;
   renderDamage(attacker, defender);
   renderSpeed(attacker, defender);
   renderType(attacker, defender);
@@ -421,48 +514,94 @@ function setMode(mode) {
   ["damage","speed","type"].forEach(name=>{ const view=$(name+"View"); view.hidden=name!==mode; view.classList.toggle("active",name===mode); });
 }
 
-function loadImageSource(src, forcedProfile) {
-  state.profile = forcedProfile || detectProfile(src);
-  state.foes = [...profiles[state.profile].foes];
+function startTeamPreview(file, src, label = "選択画像") {
   $("scanImage").src = src;
+  state.analysisLabel = label;
   showScreen("scan");
-  runScan();
+  runScan(file);
 }
 
-function detectProfile(src) {
-  const text = String(src).toLowerCase();
-  if (text.includes("1999") || text.includes("gs-ces")) return "gs";
-  if (text.includes("2001") || text.includes("yusk")) return "yusk";
-  return "koko";
+function resetScanSteps() {
+  const labels = [
+    [$("scanOpponent"), "相手ポケモン6体"],
+    [$("scanTypes"), "タイプ・メガ候補"],
+    [$("scanMatch"), "登録パーティと照合"],
+  ];
+  labels.forEach(([el, label]) => {
+    el.classList.remove("done");
+    el.innerHTML = `<i class="ph ph-circle-dashed"></i> ${label}`;
+  });
 }
 
-async function runScan() {
+function completeScanStep(id) {
+  const el = $(id);
+  el.classList.add("done");
+  el.querySelector("i").className = "ph ph-check-circle";
+}
+
+async function runScan(file) {
   const token = ++state.scanToken;
+  state.scanController?.abort();
+  state.scanController = new AbortController();
   const progress = $("scanProgress");
-  const steps = [[$("scanOpponent"),36],[$("scanTypes"),68],[$("scanMatch"),100]];
-  steps.forEach(([el])=>{ el.classList.remove("done"); el.innerHTML='<i class="ph ph-circle-dashed"></i> '+el.textContent.trim(); });
-  progress.style.width = "10%";
-  for (const [el,amount] of steps) {
-    await new Promise(resolve=>setTimeout(resolve,360));
+  resetScanSteps();
+  let amount = 12;
+  progress.style.width = `${amount}%`;
+  const pulse = setInterval(() => {
+    amount = Math.min(72, amount + (amount < 44 ? 5 : 2));
+    progress.style.width = `${amount}%`;
+  }, 420);
+  try {
+    const result = await analyzeScreenshots("team_preview", [file], state.scanController.signal);
     if (token !== state.scanToken) return;
-    progress.style.width = amount+"%";
-    el.classList.add("done");
-    el.querySelector("i").className = "ph ph-check-circle";
+    state.foes = analysisToFoes(result);
+    state.analysisConfidence = result.overall_confidence;
+    state.analysisWarnings = result.warnings || [];
+    state.own = 0;
+    state.foe = 0;
+    progress.style.width = "78%";
+    completeScanStep("scanOpponent");
+    await new Promise((resolve) => setTimeout(resolve, 180));
+    completeScanStep("scanTypes");
+    progress.style.width = "90%";
+    await new Promise((resolve) => setTimeout(resolve, 180));
+    completeScanStep("scanMatch");
+    progress.style.width = "100%";
+    await new Promise((resolve) => setTimeout(resolve, 160));
+    if (token !== state.scanToken) return;
+    renderResult();
+    showScreen("result");
+    if (state.analysisWarnings.length) toast("一部に要確認があります。認識を修正してください", 4200);
+  } catch (error) {
+    if (error.name === "AbortError" || token !== state.scanToken) return;
+    showScreen("capture");
+    toast(error.message || "AI解析に失敗しました", 5200);
+  } finally {
+    clearInterval(pulse);
+    if (token === state.scanToken) state.scanController = null;
   }
-  await new Promise(resolve=>setTimeout(resolve,180));
-  if (token !== state.scanToken) return;
-  renderResult();
-  showScreen("result");
 }
 
-function cancelScan() { state.scanToken++; showScreen("capture"); }
-function toast(message) { const el=$("toast"); el.textContent=message; el.hidden=false; clearTimeout(toast.timer); toast.timer=setTimeout(()=>el.hidden=true,1800); }
+function cancelScan() { state.scanToken++; state.scanController?.abort(); state.scanController=null; showScreen("capture"); }
+function toast(message, duration = 2400) { const el=$("toast"); el.textContent=message; el.hidden=false; clearTimeout(toast.timer); toast.timer=setTimeout(()=>el.hidden=true,duration); }
 
-document.addEventListener("click", (event) => {
+document.addEventListener("click", async (event) => {
   const partyItem = event.target.closest("[data-party-index]");
   if (partyItem) { selectPartyForEdit(partyItem.dataset.partyIndex); return; }
   const sample = event.target.closest("[data-sample]");
-  if (sample) { const key=sample.dataset.sample; loadImageSource(sample.querySelector("img").src,key); return; }
+  if (sample) {
+    const key = sample.dataset.sample;
+    try {
+      const image = sample.querySelector("img");
+      const response = await fetch(image.src);
+      const blob = await response.blob();
+      const file = new File([blob], `sample-${key}.jpg`, { type: blob.type || "image/jpeg" });
+      startTeamPreview(file, image.src, sampleLabels[key] || "サンプル画像");
+    } catch (_) {
+      toast("サンプル画像を開けませんでした", 4200);
+    }
+    return;
+  }
   const go = event.target.closest("[data-go]");
   if (go) { cancelScan(); return; }
   const card = event.target.closest("[data-side]");
@@ -471,12 +610,17 @@ document.addEventListener("click", (event) => {
   if (mode) { setMode(mode.dataset.mode); return; }
 });
 
-$("screenshotInput").addEventListener("change", (event) => {
+$("screenshotInput").addEventListener("change", async (event) => {
   const file = event.target.files?.[0];
   if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => loadImageSource(reader.result, detectProfile(file.name));
-  reader.readAsDataURL(file);
+  try {
+    const src = await readFileAsDataUrl(file);
+    startTeamPreview(file, src, file.name || "選択画像");
+  } catch (error) {
+    toast(error.message, 4200);
+  } finally {
+    event.target.value = "";
+  }
 });
 
 $("captureParty").addEventListener("change", (e)=>{ state.party=Number(e.target.value); $("resultParty").value=e.target.value; });
@@ -489,8 +633,8 @@ $("duplicatePartyButton").addEventListener("click", duplicateParty);
 $("deletePartyButton").addEventListener("click", deleteParty);
 $("toggleTextImport").addEventListener("click", ()=>{ const panel=$("textImportPanel"); panel.hidden=!panel.hidden; if (!panel.hidden) $("partyTextInput").focus(); });
 $("importTextButton").addEventListener("click", ()=>{ try { addImportedParty(parsePartyText($("partyTextInput").value),"テキストから6体作成"); $("textImportPanel").hidden=true; } catch (error) { $("partyImportStatus").textContent=error.message; $("partyImportStatus").classList.remove("success"); toast(error.message); } });
-$("championsPartyInput").addEventListener("change", e=>{ detectImportFiles([...e.target.files],"champions"); e.target.value=""; });
-$("battleMemoPartyInput").addEventListener("change", e=>{ if (e.target.files?.[0]) detectImportFiles([...e.target.files],"battleMemo"); e.target.value=""; });
+$("championsPartyInput").addEventListener("change", async e=>{ const files=[...e.target.files]; e.target.value=""; await detectImportFiles(files,"champions"); });
+$("battleMemoPartyInput").addEventListener("change", async e=>{ const files=[...e.target.files]; e.target.value=""; if (files[0]) await detectImportFiles(files,"battleMemo"); });
 $("partyMemberEditor").addEventListener("change", event=>{
   if (!event.target.matches('[data-field="id"]')) return;
   const card=event.target.closest(".member-editor-card");
@@ -509,4 +653,4 @@ setMode("damage");
 const isLocalPreview = ["127.0.0.1", "localhost"].includes(location.hostname);
 if ("serviceWorker" in navigator && location.protocol.startsWith("http") && !isLocalPreview) navigator.serviceWorker.register("sw.js").catch(()=>{});
 
-window.BattleLens = { species, parties, profiles, typeMultiplier, calculateDamage };
+window.BattleLens = { species, parties, typeMultiplier, calculateDamage, speciesIdFromName, analysisToFoes, analysisToParty };

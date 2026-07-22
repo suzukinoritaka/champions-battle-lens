@@ -211,6 +211,7 @@ img { display: block; }
 .party-import-panel { padding: 9px 10px; }
 .import-status { color: var(--amber); border: 1px solid rgba(255,200,66,.32); border-radius: 999px; padding: 5px 8px; font-size: 8px; font-weight: 800; }
 .import-status.success { color: var(--acid); border-color: rgba(216,255,63,.35); }
+.import-status.error { color: var(--danger); border-color: rgba(255,83,111,.42); }
 .import-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
 .import-card { min-width: 0; min-height: 53px; display: grid; grid-template-columns: 34px minmax(0,1fr); align-items: center; gap: 8px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 11px; background: #222442; color: var(--ink); text-align: left; cursor: pointer; }
 .import-card input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }

@@ -33,7 +33,7 @@
         <i class="ph ph-caret-right"></i>
         <span data-step="result">3 比べる</span>
       </div>
-      <div class="local-badge"><i class="ph ph-shield-check"></i> 端末内処理</div>
+      <div class="local-badge"><i class="ph ph-sparkle"></i> AI画像解析</div>
     </header>
 
     <section id="captureScreen" class="screen capture-screen active" data-screen="capture">
@@ -63,11 +63,11 @@
           <li><b>02</b><span>このアプリで画像を選ぶ</span></li>
           <li><b>03</b><span>相手をタップして結果確認</span></li>
         </ol>
-        <p><i class="ph ph-lock-key"></i> 画像は外部へ送信しません。認識結果はいつでも修正できます。</p>
+        <p><i class="ph ph-lock-key"></i> 画像は解析時だけOpenAI APIへ送信し、アプリ側には保存しません。結果は修正できます。</p>
       </aside>
 
       <div class="sample-strip">
-        <div class="sample-heading"><span>すぐ試す</span><small>いただいたスクショで認識デモ</small></div>
+        <div class="sample-heading"><span>すぐ試す</span><small>提供スクショを実AIで解析（利用枠を消費）</small></div>
         <button class="sample-card" data-sample="koko" type="button"><img src="team-koko.jpg" alt="対戦スクリーンショット koko"><span>koko戦</span></button>
         <button class="sample-card" data-sample="gs" type="button"><img src="team-gs-ces.jpg" alt="対戦スクリーンショット GS_CES"><span>GS_CES戦</span></button>
         <button class="sample-card" data-sample="yusk" type="button"><img src="team-yusk.jpg" alt="対戦スクリーンショット yusk"><span>yusk戦</span></button>
@@ -151,7 +151,7 @@
         <aside class="party-library-panel">
           <div class="panel-heading"><span><b>登録パーティ</b><small id="partyCount">0件</small></span></div>
           <div id="partyLibrary" class="party-library-list"></div>
-          <p><i class="ph ph-cloud-slash"></i> アカウント不要。画像もデータも外部送信しません。</p>
+          <p><i class="ph ph-shield-check"></i> パーティデータはiPhone内に保存。画像は取込時だけOpenAI APIで解析します。</p>
         </aside>
 
         <div class="party-workspace">
@@ -194,6 +194,7 @@
   </main>
 
   <div id="toast" class="toast" role="status" hidden></div>
+  <script src="config.js"></script>
   <script src="app.js" type="module"></script>
 </body>
 </html>
