@@ -1,0 +1,15 @@
+{
+  "name": "Battle Lens — 撮るだけダメ計",
+  "short_name": "Battle Lens",
+  "description": "見せ合い画面を選ぶだけで相手6体を読み取り、ダメージ・素早さ・タイプ相性を比較する非公式ツール",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#17172f",
+  "theme_color": "#17172f",
+  "lang": "ja",
+  "orientation": "landscape",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
