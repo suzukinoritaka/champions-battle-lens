@@ -40,6 +40,11 @@ const species = {
   scizor: { name: "ハッサム", sprite: "scizor.png", types: ["bug", "steel"], hp: 147, def: 120, spd: 100, speed: 117 }
 };
 
+const curatedSpeciesIds = new Set(Object.keys(species));
+Object.entries(window.BATTLE_LENS_SPECIES || {}).forEach(([id, mon]) => {
+  if (!species[id]) species[id] = mon;
+});
+
 const typeNames = { normal:"ノーマル", fire:"ほのお", water:"みず", electric:"でんき", grass:"くさ", ice:"こおり", fighting:"かくとう", poison:"どく", ground:"じめん", flying:"ひこう", psychic:"エスパー", bug:"むし", rock:"いわ", ghost:"ゴースト", dragon:"ドラゴン", dark:"あく", steel:"はがね", fairy:"フェアリー" };
 const chart = {
   normal:{rock:.5,ghost:0,steel:.5}, fire:{fire:.5,water:.5,grass:2,ice:2,bug:2,rock:.5,dragon:.5,steel:2},
@@ -152,7 +157,10 @@ const state = {
   editParty:0, partyReturn:"capture"
 };
 const $ = (id) => document.getElementById(id);
-const sprite = (id) => ASSET + species[id].sprite;
+const sprite = (id) => {
+  const source = species[id]?.sprite || species.garchomp.sprite;
+  return /^(?:https?:|data:|assets\/)/.test(source) ? source : ASSET + source;
+};
 
 function typeMultiplier(attackType, defendTypes) {
   return defendTypes.reduce((total, type) => total * (chart[attackType]?.[type] ?? 1), 1);
@@ -365,13 +373,23 @@ async function localIconEntries() {
         if (!response.ok) throw new Error("manifest");
         return response.json();
       }))
-      .then((manifest) => manifest.templates.map((template) => ({ id: template.id, src: template.file })))
-      .catch(() => Object.keys(species).map((id) => ({ id, src: sprite(id) })));
+      .then((manifest) => manifest.templates.map((template) => ({
+        id: template.id,
+        src: template.atlas || template.file,
+        crop: template.atlas ? {
+          x: Number(template.x || 0),
+          y: Number(template.y || 0),
+          size: Number(template.size || 128),
+        } : null,
+        title: template.title || template.file,
+      })))
+      .catch(() => Object.keys(species).map((id) => ({ id, src: sprite(id), crop: null, title: id })));
   }
   const templates = await localIconManifestPromise;
-  return Promise.all(templates.map(async ({ id, src }) => {
+  return Promise.all(templates.map(async (template) => {
+    const { id, src } = template;
     if (!localIconCache.has(src)) localIconCache.set(src, loadCanvasImage(src));
-    return [id, await localIconCache.get(src), src];
+    return { ...template, image: await localIconCache.get(src) };
   }));
 }
 
@@ -414,14 +432,32 @@ function localMatchScore(actual, rendered) {
   return colorSimilarity * .55 + silhouetteSimilarity * .15 + coverageSimilarity * .30;
 }
 
-function scoreLocalIcon(actual, icon, regionSize, iconSize, dx = 0, dy = 0) {
+function createLocalIconScorer(regionSize) {
   const canvas = document.createElement("canvas");
   canvas.width = regionSize;
   canvas.height = regionSize;
   const context = canvas.getContext("2d", { willReadFrequently: true });
+  return (actual, template, iconSize, dx = 0, dy = 0) => {
   context.clearRect(0, 0, regionSize, regionSize);
-  context.drawImage(icon, (regionSize - iconSize) / 2 + dx, (regionSize - iconSize) / 2 + dy, iconSize, iconSize);
-  return localMatchScore(actual, context.getImageData(0, 0, regionSize, regionSize));
+    const destinationX = (regionSize - iconSize) / 2 + dx;
+    const destinationY = (regionSize - iconSize) / 2 + dy;
+    if (template.crop) {
+      context.drawImage(
+        template.image,
+        template.crop.x,
+        template.crop.y,
+        template.crop.size,
+        template.crop.size,
+        destinationX,
+        destinationY,
+        iconSize,
+        iconSize,
+      );
+    } else {
+      context.drawImage(template.image, destinationX, destinationY, iconSize, iconSize);
+    }
+    return localMatchScore(actual, context.getImageData(0, 0, regionSize, regionSize));
+  };
 }
 
 function bestUniqueLocalAssignment(slotCandidates) {
@@ -460,6 +496,7 @@ async function recognizeTeamPreviewLocally(file) {
   const rowStep = canvas.height * .1173;
   const move = canvas.width / 437;
   const slotCandidates = [];
+  const scoreIcon = createLocalIconScorer(regionSize);
 
   for (let slot = 0; slot < 6; slot += 1) {
     const centerY = firstCenterY + rowStep * slot;
@@ -470,17 +507,26 @@ async function recognizeTeamPreviewLocally(file) {
       regionSize,
     );
     const bestVariantBySpecies = new Map();
-    icons.forEach(([id, icon, variant]) => {
-      const candidate = { id, icon, variant, score: scoreLocalIcon(actual, icon, regionSize, baseIconSize) };
+    icons.forEach((template) => {
+      const candidate = {
+        id: template.id,
+        template,
+        score: scoreIcon(actual, template, baseIconSize),
+      };
+      const { id } = candidate;
       if (!bestVariantBySpecies.has(id) || candidate.score > bestVariantBySpecies.get(id).score) bestVariantBySpecies.set(id, candidate);
     });
     const firstPass = [...bestVariantBySpecies.values()].sort((a, b) => b.score - a.score);
-    const refined = firstPass.map((candidate) => {
+    const refineCandidates = [...new Map([
+      ...firstPass.slice(0, 28),
+      ...firstPass.filter((candidate) => curatedSpeciesIds.has(candidate.id)),
+    ].map((candidate) => [candidate.id, candidate])).values()];
+    const refined = refineCandidates.map((candidate) => {
       let score = candidate.score;
       for (const scale of [.88, .94, 1, 1.06, 1.12]) {
         for (const dx of [-move, 0, move]) {
           for (const dy of [-move, 0, move]) {
-            score = Math.max(score, scoreLocalIcon(actual, candidate.icon, regionSize, Math.round(baseIconSize * scale), dx, dy));
+            score = Math.max(score, scoreIcon(actual, candidate.template, Math.round(baseIconSize * scale), dx, dy));
           }
         }
       }
@@ -500,6 +546,7 @@ async function recognizeTeamPreviewLocally(file) {
   const members = evaluations.map(({ candidate, index, margin, confidence }) => {
     return {
       slot: index + 1,
+      species_id: candidate.id,
       species_name: species[candidate.id].name,
       ability: null,
       item: null,
@@ -548,9 +595,10 @@ function orderedMembers(result) {
 
 function analysisToFoes(result) {
   const members = orderedMembers(result);
-  const unknown = members.filter((member) => !speciesIdFromName(member.species_name)).map((member) => member.species_name);
+  const memberId = (member) => member.species_id in species ? member.species_id : speciesIdFromName(member.species_name);
+  const unknown = members.filter((member) => !memberId(member)).map((member) => member.species_name);
   if (unknown.length) throw new Error(`未登録のポケモンを検出: ${unknown.join("、")}。認識修正候補へ追加が必要です`);
-  return members.map((member) => speciesIdFromName(member.species_name));
+  return members.map(memberId);
 }
 
 function analysisToParty(result, kind) {
@@ -710,10 +758,20 @@ function setMode(mode) {
 }
 
 function startTeamPreview(file, src, label = "選択画像") {
+  setCaptureStatus();
   $("scanImage").src = src;
   state.analysisLabel = label;
   showScreen("scan");
   runScan(file);
+}
+
+function setCaptureStatus(message = "", isError = false) {
+  const status = $("captureStatus");
+  if (!status) return;
+  status.classList.toggle("error", isError);
+  status.innerHTML = message
+    ? `<i class="ph ph-warning-circle"></i> ${escapeHtml(message)}`
+    : '<i class="ph ph-device-mobile"></i> 通常はiPhone内で無料判定・画像は保存しません';
 }
 
 function resetScanSteps() {
@@ -758,8 +816,21 @@ async function runScan(file) {
         result = await analyzeScreenshots("team_preview", [file], state.scanController.signal);
         state.analysisMethod = "ai";
       } catch (aiError) {
-        result.warnings = [...(result.warnings || []), "AI補助を利用できなかったため端末内の候補を表示しています"];
+        throw new Error("認識できませんでした。AI補助も利用できないため、結果は確定していません。別のスクショで再撮影してください。");
       }
+    }
+    if (!local.reliable && state.analysisMethod === "local") {
+      throw new Error("認識できませんでした。未確定の候補は表示していません。別のスクショを選ぶか、AI補助を有効にしてください。");
+    }
+    if (
+      state.analysisMethod === "ai"
+      && (
+        Number(result.overall_confidence || 0) < 60
+        || orderedMembers(result).length !== 6
+        || orderedMembers(result).some((member) => Number(member.confidence || 0) < 45)
+      )
+    ) {
+      throw new Error("認識できませんでした。AIの信頼度が低いため、結果は確定していません。");
     }
     if (token !== state.scanToken) return;
     state.foes = analysisToFoes(result);
@@ -783,7 +854,9 @@ async function runScan(file) {
   } catch (error) {
     if (error.name === "AbortError" || token !== state.scanToken) return;
     showScreen("capture");
-    toast(error.message || "AI解析に失敗しました", 5200);
+    const message = error.message || "認識できませんでした";
+    setCaptureStatus(message, true);
+    toast(message, 5200);
   } finally {
     clearInterval(pulse);
     if (token === state.scanToken) state.scanController = null;
