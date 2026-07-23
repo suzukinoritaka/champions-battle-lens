@@ -1,7 +1,8 @@
-const CACHE = "battle-lens-camera-v7";
+const CACHE = "battle-lens-camera-v9";
 const ASSETS = [
   "./", "index.html", "styles.css", "app.js", "config.js", "manifest.webmanifest", "icon.svg",
-  "team-koko.jpg", "team-gs-ces.jpg", "team-yusk.jpg"
+  "assets/recognition/manifest.json", "assets/recognition/manifest.js",
+  "assets/samples/team-koko.jpg", "assets/samples/team-gs-ces.jpg", "assets/samples/team-yusk.jpg"
 ];
 
 self.addEventListener("install", (event) => {

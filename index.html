@@ -26,51 +26,36 @@
         <span class="brand-mark"><i class="ph ph-camera"></i></span>
         <span><b>BATTLE LENS</b><small>撮るだけダメ計</small></span>
       </button>
-      <div class="header-steps" aria-label="利用手順">
-        <span class="active" data-step="capture">1 撮る</span>
-        <i class="ph ph-caret-right"></i>
-        <span data-step="scan">2 読む</span>
-        <i class="ph ph-caret-right"></i>
-        <span data-step="result">3 比べる</span>
-      </div>
-      <div class="local-badge"><i class="ph ph-sparkle"></i> AI画像解析</div>
+      <nav class="app-nav" aria-label="メインメニュー">
+        <button class="active" data-nav="battle" data-go="capture" type="button"><i class="ph ph-crosshair"></i><span>対戦</span></button>
+        <button id="openBoxNav" data-nav="box" type="button"><i class="ph ph-circles-four"></i><span>マイボックス</span></button>
+      </nav>
+      <div class="local-badge"><i class="ph ph-device-mobile"></i> 端末内で6体認識</div>
     </header>
 
     <section id="captureScreen" class="screen capture-screen active" data-screen="capture">
       <div class="capture-primary">
         <div class="capture-copy">
-          <p class="kicker">ONE SCREENSHOT. INSTANT MATCHUP.</p>
-          <h1>見せ合い画面を<br><em>1枚選ぶだけ。</em></h1>
-          <p>相手6体を読み取り、登録パーティからダメージ候補と素早さをすぐ比較します。</p>
+          <p class="kicker">BATTLE START</p>
+          <h1>選出画面を<em>スクショ解析</em></h1>
+          <p>相手の6体を読み取り、ダメージ・素早さ・タイプ相性をすぐ表示します。</p>
         </div>
         <label class="camera-cta" for="screenshotInput">
           <input id="screenshotInput" type="file" accept="image/*">
-          <i class="ph ph-images-square"></i>
-          <span><strong>スクショを選ぶ</strong><small>写真アプリから見せ合い画面を選択</small></span>
+          <i class="ph ph-image-square"></i>
+          <span><strong>選出画面のスクショを選ぶ</strong><small>写真アプリから1枚選択</small></span>
           <i class="ph ph-arrow-right"></i>
         </label>
-        <div class="party-row">
-          <label for="captureParty">自分のパーティ</label>
-          <select id="captureParty" class="party-select"></select>
-          <button id="openPartyManager" class="party-manage-button" type="button"><i class="ph ph-users-three"></i> 管理</button>
+        <div class="active-party-dock">
+          <div class="active-party-label"><span><i class="ph ph-check-circle"></i> 使用するパーティ</span><small>スクショ解析後、この6体で比較します</small></div>
+          <div id="capturePartySprites" class="capture-party-sprites" aria-hidden="true"></div>
+          <select id="captureParty" class="party-select" aria-label="使用するパーティ"></select>
+          <button id="openPartyManager" class="party-manage-button" type="button"><i class="ph ph-pencil-simple"></i> 編集</button>
         </div>
-      </div>
-
-      <aside class="capture-guide">
-        <div class="guide-title"><i class="ph ph-sparkle"></i><span><b>撮るだけ</b><small>最短3タップ</small></span></div>
-        <ol>
-          <li><b>01</b><span>見せ合い画面をスクショ</span></li>
-          <li><b>02</b><span>このアプリで画像を選ぶ</span></li>
-          <li><b>03</b><span>相手をタップして結果確認</span></li>
-        </ol>
-        <p><i class="ph ph-lock-key"></i> 画像は解析時だけOpenAI APIへ送信し、アプリ側には保存しません。結果は修正できます。</p>
-      </aside>
-
-      <div class="sample-strip">
-        <div class="sample-heading"><span>すぐ試す</span><small>提供スクショを実AIで解析（利用枠を消費）</small></div>
-        <button class="sample-card" data-sample="koko" type="button"><img src="team-koko.jpg" alt="対戦スクリーンショット koko"><span>koko戦</span></button>
-        <button class="sample-card" data-sample="gs" type="button"><img src="team-gs-ces.jpg" alt="対戦スクリーンショット GS_CES"><span>GS_CES戦</span></button>
-        <button class="sample-card" data-sample="yusk" type="button"><img src="team-yusk.jpg" alt="対戦スクリーンショット yusk"><span>yusk戦</span></button>
+        <div class="capture-foot">
+          <p class="capture-privacy"><i class="ph ph-device-mobile"></i> 通常はiPhone内で無料判定・画像は保存しません</p>
+          <label class="ai-fallback-toggle"><input id="aiFallbackEnabled" type="checkbox" checked><span><i class="ph ph-sparkle"></i> 判定が難しい時だけAI補助</span></label>
+        </div>
       </div>
     </section>
 
@@ -142,14 +127,14 @@
     <section id="partyScreen" class="screen party-screen" data-screen="party" hidden>
       <div class="party-toolbar">
         <button id="partyBackButton" class="toolbar-button" type="button"><i class="ph ph-arrow-left"></i> 戻る</button>
-        <div><p class="kicker">MY TEAM LIBRARY</p><h2>パーティ管理</h2></div>
+        <div><p class="kicker">MY POKÉMON BOX</p><h2>マイボックス</h2></div>
         <span class="party-storage-badge"><i class="ph ph-device-mobile"></i> このiPhone内に保存</span>
         <button id="newPartyButton" class="acid-button" type="button"><i class="ph ph-plus"></i> 新規</button>
       </div>
 
       <div class="party-manager-grid">
         <aside class="party-library-panel">
-          <div class="panel-heading"><span><b>登録パーティ</b><small id="partyCount">0件</small></span></div>
+          <div class="panel-heading"><span><b>登録パーティ</b><small id="partyCount">0件</small></span><i class="ph ph-stack"></i></div>
           <div id="partyLibrary" class="party-library-list"></div>
           <p><i class="ph ph-shield-check"></i> パーティデータはiPhone内に保存。画像は取込時だけOpenAI APIで解析します。</p>
         </aside>
@@ -195,6 +180,7 @@
 
   <div id="toast" class="toast" role="status" hidden></div>
   <script src="config.js"></script>
+  <script src="assets/recognition/manifest.js"></script>
   <script src="app.js" type="module"></script>
 </body>
 </html>

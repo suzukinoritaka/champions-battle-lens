@@ -1,4 +1,4 @@
-const ASSET = "";
+const ASSET = "assets/pokemon/";
 const LOCAL_API_OVERRIDE = ["127.0.0.1", "localhost"].includes(location.hostname)
   ? new URLSearchParams(location.search).get("api")
   : "";
@@ -90,6 +90,7 @@ const defaultParties = [
 ];
 
 const PARTY_STORE_KEY = "battle-lens-parties-v1";
+const AI_FALLBACK_STORE_KEY = "battle-lens-ai-fallback-v1";
 const deepClone = (value) => typeof structuredClone === "function" ? structuredClone(value) : JSON.parse(JSON.stringify(value));
 const statKeys = [
   ["hp","H"], ["attack","A"], ["def","B"], ["special","C"], ["spd","D"], ["speed","S"]
@@ -147,6 +148,7 @@ const state = {
   foes:["garchomp","grimmsnarl","charizard","primarina","hippowdon","basculegion"],
   own:0, foe:0, mode:"damage", scanToken:0, scanController:null,
   analysisConfidence:null, analysisLabel:"AI解析", analysisWarnings:[],
+  analysisMethod:"local",
   editParty:0, partyReturn:"capture"
 };
 const $ = (id) => document.getElementById(id);
@@ -179,13 +181,20 @@ function effectiveSpeed(member) {
 function showScreen(name) {
   state.screen = name;
   document.querySelectorAll("[data-screen]").forEach((el) => { el.hidden = el.dataset.screen !== name; el.classList.toggle("active", el.dataset.screen === name); });
-  document.querySelectorAll("[data-step]").forEach((el) => el.classList.toggle("active", el.dataset.step === name));
+  document.querySelectorAll("[data-nav]").forEach((el) => el.classList.toggle("active", el.dataset.nav === (name === "party" ? "box" : "battle")));
 }
 
 function fillPartySelects() {
   const options = parties.map((p, i) => `<option value="${i}">${escapeHtml(p.name)}</option>`).join("");
   state.party = Math.min(state.party, parties.length - 1);
   [$("captureParty"), $("resultParty")].forEach((select) => { select.innerHTML = options; select.value = String(state.party); });
+  renderCaptureParty();
+}
+
+function renderCaptureParty() {
+  const dock = $("capturePartySprites");
+  if (!dock || !parties[state.party]) return;
+  dock.innerHTML = parties[state.party].members.slice(0, 6).map((member) => `<span><img src="${sprite(member.id)}" alt=""><small>${escapeHtml(species[member.id].name)}</small></span>`).join("");
 }
 
 const speciesChoices = () => Object.entries(species).sort((a,b)=>a[1].name.localeCompare(b[1].name,"ja"));
@@ -332,6 +341,191 @@ function readFileAsDataUrl(file) {
     reader.onerror = () => reject(new Error("画像を開けませんでした"));
     reader.readAsDataURL(file);
   });
+}
+
+const localIconCache = new Map();
+let localIconManifestPromise;
+
+function loadCanvasImage(src) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error("画像データを読み込めませんでした"));
+    image.src = src;
+  });
+}
+
+async function localIconEntries() {
+  if (!localIconManifestPromise) {
+    const embeddedManifest = window.BATTLE_LENS_ICON_MANIFEST;
+    localIconManifestPromise = (embeddedManifest
+      ? Promise.resolve(embeddedManifest)
+      : fetch("assets/recognition/manifest.json")
+      .then((response) => {
+        if (!response.ok) throw new Error("manifest");
+        return response.json();
+      }))
+      .then((manifest) => manifest.templates.map((template) => ({ id: template.id, src: template.file })))
+      .catch(() => Object.keys(species).map((id) => ({ id, src: sprite(id) })));
+  }
+  const templates = await localIconManifestPromise;
+  return Promise.all(templates.map(async ({ id, src }) => {
+    if (!localIconCache.has(src)) localIconCache.set(src, loadCanvasImage(src));
+    return [id, await localIconCache.get(src), src];
+  }));
+}
+
+function localMatchScore(actual, rendered) {
+  const width = actual.width;
+  const data = actual.data;
+  const ref = rendered.data;
+  const mid = Math.floor(width / 2);
+  const bgIndex = (mid * width + 2) * 4;
+  const bg = [data[bgIndex], data[bgIndex + 1], data[bgIndex + 2]];
+  let colorDifference = 0;
+  let colorWeight = 0;
+  let intersection = 0;
+  let union = 0;
+  let foregroundCoverage = 0;
+  let foregroundWeight = 0;
+
+  for (let pixel = 0; pixel < width * width; pixel += 2) {
+    const index = pixel * 4;
+    const alpha = ref[index + 3] / 255;
+    const observedDistance = Math.abs(data[index] - bg[0]) + Math.abs(data[index + 1] - bg[1]) + Math.abs(data[index + 2] - bg[2]);
+    const observedMask = observedDistance > 68;
+    const templateMask = alpha > .18;
+    if (observedMask || templateMask) union += 1;
+    if (observedMask && templateMask) intersection += 1;
+    if (alpha > .42) {
+      const expectedR = ref[index] * alpha + bg[0] * (1 - alpha);
+      const expectedG = ref[index + 1] * alpha + bg[1] * (1 - alpha);
+      const expectedB = ref[index + 2] * alpha + bg[2] * (1 - alpha);
+      colorDifference += (Math.abs(data[index] - expectedR) + Math.abs(data[index + 1] - expectedG) + Math.abs(data[index + 2] - expectedB)) * alpha;
+      colorWeight += 3 * 255 * alpha;
+      foregroundCoverage += Math.min(1, observedDistance / 180) * alpha;
+      foregroundWeight += alpha;
+    }
+  }
+
+  const colorSimilarity = colorWeight ? 1 - colorDifference / colorWeight : 0;
+  const silhouetteSimilarity = union ? intersection / union : 0;
+  const coverageSimilarity = foregroundWeight ? foregroundCoverage / foregroundWeight : 0;
+  return colorSimilarity * .55 + silhouetteSimilarity * .15 + coverageSimilarity * .30;
+}
+
+function scoreLocalIcon(actual, icon, regionSize, iconSize, dx = 0, dy = 0) {
+  const canvas = document.createElement("canvas");
+  canvas.width = regionSize;
+  canvas.height = regionSize;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.clearRect(0, 0, regionSize, regionSize);
+  context.drawImage(icon, (regionSize - iconSize) / 2 + dx, (regionSize - iconSize) / 2 + dy, iconSize, iconSize);
+  return localMatchScore(actual, context.getImageData(0, 0, regionSize, regionSize));
+}
+
+function bestUniqueLocalAssignment(slotCandidates) {
+  let best = null;
+  function visit(slot, used, selected, total) {
+    if (slot === slotCandidates.length) {
+      if (!best || total > best.total) best = { total, selected: [...selected] };
+      return;
+    }
+    slotCandidates[slot].slice(0, 5).forEach((candidate) => {
+      if (used.has(candidate.id)) return;
+      used.add(candidate.id);
+      selected.push(candidate);
+      visit(slot + 1, used, selected, total + candidate.score);
+      selected.pop();
+      used.delete(candidate.id);
+    });
+  }
+  visit(0, new Set(), [], 0);
+  return best?.selected || slotCandidates.map((candidates) => candidates[0]);
+}
+
+async function recognizeTeamPreviewLocally(file) {
+  const [src, icons] = await Promise.all([readFileAsDataUrl(file), localIconEntries()]);
+  const screen = await loadCanvasImage(src);
+  const canvas = document.createElement("canvas");
+  canvas.width = screen.naturalWidth;
+  canvas.height = screen.naturalHeight;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.drawImage(screen, 0, 0);
+
+  const regionSize = Math.max(104, Math.round(canvas.width * .055));
+  const baseIconSize = Math.round(canvas.width * .0488);
+  const centerX = canvas.width * .801;
+  const firstCenterY = canvas.height * .1705;
+  const rowStep = canvas.height * .1173;
+  const move = canvas.width / 437;
+  const slotCandidates = [];
+
+  for (let slot = 0; slot < 6; slot += 1) {
+    const centerY = firstCenterY + rowStep * slot;
+    const actual = context.getImageData(
+      Math.round(centerX - regionSize / 2),
+      Math.round(centerY - regionSize / 2),
+      regionSize,
+      regionSize,
+    );
+    const bestVariantBySpecies = new Map();
+    icons.forEach(([id, icon, variant]) => {
+      const candidate = { id, icon, variant, score: scoreLocalIcon(actual, icon, regionSize, baseIconSize) };
+      if (!bestVariantBySpecies.has(id) || candidate.score > bestVariantBySpecies.get(id).score) bestVariantBySpecies.set(id, candidate);
+    });
+    const firstPass = [...bestVariantBySpecies.values()].sort((a, b) => b.score - a.score);
+    const refined = firstPass.map((candidate) => {
+      let score = candidate.score;
+      for (const scale of [.88, .94, 1, 1.06, 1.12]) {
+        for (const dx of [-move, 0, move]) {
+          for (const dy of [-move, 0, move]) {
+            score = Math.max(score, scoreLocalIcon(actual, candidate.icon, regionSize, Math.round(baseIconSize * scale), dx, dy));
+          }
+        }
+      }
+      return { id: candidate.id, score };
+    }).sort((a, b) => b.score - a.score);
+    slotCandidates.push(refined);
+  }
+
+  const assigned = bestUniqueLocalAssignment(slotCandidates);
+  const evaluations = assigned.map((candidate, index) => {
+    const nextBest = slotCandidates[index].find((entry) => entry.id !== candidate.id)?.score || 0;
+    const margin = Math.max(0, candidate.score - nextBest);
+    const confidence = Math.max(30, Math.min(99, Math.round((candidate.score - .45) * 120 + margin * 260)));
+    const reliable = candidate.score >= .74 || (candidate.score >= .68 && margin >= .035);
+    return { candidate, index, margin, confidence, reliable };
+  });
+  const members = evaluations.map(({ candidate, index, margin, confidence }) => {
+    return {
+      slot: index + 1,
+      species_name: species[candidate.id].name,
+      ability: null,
+      item: null,
+      moves: [null, null, null, null],
+      stats: { hp: null, attack: null, defense: null, sp_attack: null, sp_defense: null, speed: null },
+      confidence,
+      notes: [`local_score:${candidate.score.toFixed(3)}`, `margin:${margin.toFixed(3)}`],
+    };
+  });
+  const weak = evaluations.filter(({ reliable }) => !reliable);
+  const overall = Math.round(members.reduce((sum, member) => sum + member.confidence, 0) / members.length);
+  return {
+    result: {
+      task: "team_preview",
+      members,
+      overall_confidence: overall,
+      warnings: weak.map(({ index }) => `${index + 1}枠目は要確認です`),
+    },
+    reliable: weak.length === 0,
+    scores: assigned.map((candidate) => candidate.score),
+    candidates: slotCandidates.map((candidates) => candidates.slice(0, 12).map((candidate) => ({
+      id: candidate.id,
+      name: species[candidate.id].name,
+      score: Number(candidate.score.toFixed(4)),
+    }))),
+  };
 }
 
 async function analyzeScreenshots(task, files, signal) {
@@ -500,7 +694,8 @@ function renderResult() {
   $("foeTeam").innerHTML = state.foes.map((id,i)=>teamCard(id,"foe",i)).join("");
   $("attackerHero").innerHTML = hero(attacker.id, attacker.item);
   $("defenderHero").innerHTML = hero(state.foes[state.foe], "相手配分を幅で計算");
-  $("confidenceText").textContent = state.analysisConfidence == null ? "AI認識" : `AI認識 ${state.analysisConfidence}%`;
+  const methodLabel = state.analysisMethod === "ai" ? "AI補助" : "端末内認識";
+  $("confidenceText").textContent = state.analysisConfidence == null ? methodLabel : `${methodLabel} ${state.analysisConfidence}%`;
   $("profileText").textContent = `${state.analysisLabel || "選択画像"}・相手6体を検出`;
   renderDamage(attacker, defender);
   renderSpeed(attacker, defender);
@@ -523,7 +718,7 @@ function startTeamPreview(file, src, label = "選択画像") {
 
 function resetScanSteps() {
   const labels = [
-    [$("scanOpponent"), "相手ポケモン6体"],
+    [$("scanOpponent"), "端末内でアイコン照合"],
     [$("scanTypes"), "タイプ・メガ候補"],
     [$("scanMatch"), "登録パーティと照合"],
   ];
@@ -552,7 +747,20 @@ async function runScan(file) {
     progress.style.width = `${amount}%`;
   }, 420);
   try {
-    const result = await analyzeScreenshots("team_preview", [file], state.scanController.signal);
+    const local = await recognizeTeamPreviewLocally(file);
+    window.BattleLens.lastLocal = local;
+    let result = local.result;
+    state.analysisMethod = "local";
+    progress.style.width = "58%";
+    completeScanStep("scanOpponent");
+    if (!local.reliable && $("aiFallbackEnabled").checked) {
+      try {
+        result = await analyzeScreenshots("team_preview", [file], state.scanController.signal);
+        state.analysisMethod = "ai";
+      } catch (aiError) {
+        result.warnings = [...(result.warnings || []), "AI補助を利用できなかったため端末内の候補を表示しています"];
+      }
+    }
     if (token !== state.scanToken) return;
     state.foes = analysisToFoes(result);
     state.analysisConfidence = result.overall_confidence;
@@ -560,7 +768,6 @@ async function runScan(file) {
     state.own = 0;
     state.foe = 0;
     progress.style.width = "78%";
-    completeScanStep("scanOpponent");
     await new Promise((resolve) => setTimeout(resolve, 180));
     completeScanStep("scanTypes");
     progress.style.width = "90%";
@@ -572,6 +779,7 @@ async function runScan(file) {
     renderResult();
     showScreen("result");
     if (state.analysisWarnings.length) toast("一部に要確認があります。認識を修正してください", 4200);
+    else if (state.analysisMethod === "local") toast("iPhone内で無料判定しました");
   } catch (error) {
     if (error.name === "AbortError" || token !== state.scanToken) return;
     showScreen("capture");
@@ -623,9 +831,15 @@ $("screenshotInput").addEventListener("change", async (event) => {
   }
 });
 
-$("captureParty").addEventListener("change", (e)=>{ state.party=Number(e.target.value); $("resultParty").value=e.target.value; });
+$("captureParty").addEventListener("change", (e)=>{ state.party=Number(e.target.value); $("resultParty").value=e.target.value; renderCaptureParty(); });
 $("resultParty").addEventListener("change", (e)=>{ state.party=Number(e.target.value); $("captureParty").value=e.target.value; state.own=0; renderResult(); toast("使用パーティを切り替えました"); });
 $("openPartyManager").addEventListener("click", openPartyManager);
+$("openBoxNav").addEventListener("click", openPartyManager);
+$("aiFallbackEnabled").checked = localStorage.getItem(AI_FALLBACK_STORE_KEY) !== "false";
+$("aiFallbackEnabled").addEventListener("change", (event) => {
+  localStorage.setItem(AI_FALLBACK_STORE_KEY, String(event.target.checked));
+  toast(event.target.checked ? "低信頼時だけAI補助します" : "端末内判定だけで使用します");
+});
 $("partyBackButton").addEventListener("click", ()=>{ fillPartySelects(); if (state.partyReturn === "result") renderResult(); showScreen(state.partyReturn); });
 $("newPartyButton").addEventListener("click", ()=>{ parties.push(blankParty()); state.editParty=parties.length-1; saveParties(); fillPartySelects(); renderPartyEditor(); toast("新しいパーティを作成しました"); });
 $("savePartyButton").addEventListener("click", saveEditorParty);
@@ -653,4 +867,4 @@ setMode("damage");
 const isLocalPreview = ["127.0.0.1", "localhost"].includes(location.hostname);
 if ("serviceWorker" in navigator && location.protocol.startsWith("http") && !isLocalPreview) navigator.serviceWorker.register("sw.js").catch(()=>{});
 
-window.BattleLens = { species, parties, typeMultiplier, calculateDamage, speciesIdFromName, analysisToFoes, analysisToParty };
+window.BattleLens = { species, parties, typeMultiplier, calculateDamage, speciesIdFromName, analysisToFoes, analysisToParty, recognizeTeamPreviewLocally };
