@@ -162,6 +162,18 @@ const sprite = (id) => {
   return /^(?:https?:|data:|assets\/)/.test(source) ? source : ASSET + source;
 };
 
+function spriteElement(id, alt = "") {
+  const mon = species[id] || species.garchomp;
+  const icon = mon.icon;
+  if (icon?.atlas) {
+    const label = escapeHtml(alt || mon.name);
+    return `<svg class="pokemon-sprite" viewBox="0 0 ${icon.size} ${icon.size}" role="img" aria-label="${label}">
+      <image href="${escapeHtml(icon.atlas)}" x="-${icon.x}" y="-${icon.y}" width="${icon.atlasWidth}" height="${icon.atlasHeight}"></image>
+    </svg>`;
+  }
+  return `<img class="pokemon-sprite" src="${sprite(id)}" alt="${escapeHtml(alt)}">`;
+}
+
 function typeMultiplier(attackType, defendTypes) {
   return defendTypes.reduce((total, type) => total * (chart[attackType]?.[type] ?? 1), 1);
 }
@@ -202,7 +214,7 @@ function fillPartySelects() {
 function renderCaptureParty() {
   const dock = $("capturePartySprites");
   if (!dock || !parties[state.party]) return;
-  dock.innerHTML = parties[state.party].members.slice(0, 6).map((member) => `<span><img src="${sprite(member.id)}" alt=""><small>${escapeHtml(species[member.id].name)}</small></span>`).join("");
+  dock.innerHTML = parties[state.party].members.slice(0, 6).map((member) => `<span>${spriteElement(member.id)}<small>${escapeHtml(species[member.id].name)}</small></span>`).join("");
 }
 
 const speciesChoices = () => Object.entries(species).sort((a,b)=>a[1].name.localeCompare(b[1].name,"ja"));
@@ -254,7 +266,7 @@ function blankParty() {
 function renderPartyLibrary() {
   $("partyCount").textContent = `${parties.length}件`;
   $("partyLibrary").innerHTML = parties.map((party,index)=>`<button class="party-library-item${index===state.editParty?" active":""}" type="button" data-party-index="${index}">
-    <span class="party-sprites">${party.members.slice(0,6).map(m=>`<img src="${sprite(m.id)}" alt="">`).join("")}</span>
+    <span class="party-sprites">${party.members.slice(0,6).map(m=>spriteElement(m.id)).join("")}</span>
     <span><b>${escapeHtml(party.name)}</b><small>${escapeHtml(party.source || "手動編集")}</small></span><i class="ph ph-caret-right"></i>
   </button>`).join("");
 }
@@ -262,7 +274,7 @@ function renderPartyLibrary() {
 function memberEditorCard(member,index) {
   const options = speciesChoices().map(([key,mon])=>`<option value="${key}"${key===member.id?" selected":""}>${mon.name}</option>`).join("");
   return `<article class="member-editor-card" data-member="${index}">
-    <div class="member-editor-title"><span><b>${index+1}</b><img src="${sprite(member.id)}" alt=""></span><select data-field="id" aria-label="${index+1}体目のポケモン">${options}</select></div>
+    <div class="member-editor-title"><span><b>${index+1}</b><span class="sprite-slot">${spriteElement(member.id)}</span></span><select data-field="id" aria-label="${index+1}体目のポケモン">${options}</select></div>
     <div class="member-meta"><label>特性<input data-field="ability" value="${escapeHtml(member.ability)}"></label><label>持ち物<input data-field="item" value="${escapeHtml(member.item)}"></label></div>
     <div class="stat-inputs">${statKeys.map(([key,label])=>`<label><span>${label}</span><input data-field="${key}" type="number" min="1" max="999" value="${member[key]}"></label>`).join("")}</div>
     <div class="move-inputs">${[0,1,2,3].map(i=>`<input data-move="${i}" value="${escapeHtml(member.moves[i]?.name || "")}" placeholder="技${i+1}">`).join("")}</div>
@@ -683,13 +695,13 @@ function teamCard(id, side, index) {
   const selected = side === "own" ? index === state.own : index === state.foe;
   const speed = side === "own" ? effectiveSpeed(parties[state.party].members[index]) : `${speedRange(mon).min}–${speedRange(mon).max}`;
   return `<button class="pokemon-card${selected ? " selected" : ""}" type="button" data-side="${side}" data-index="${index}">
-    <img src="${sprite(id)}" alt=""><span><b>${mon.name}</b><small>${mon.types.map(t => typeNames[t]).join(" / ")}</small></span><span class="speed-mini">S ${speed}</span>
+    ${spriteElement(id)}<span><b>${mon.name}</b><small>${mon.types.map(t => typeNames[t]).join(" / ")}</small></span><span class="speed-mini">S ${speed}</span>
   </button>`;
 }
 
 function hero(id, sub) {
   const mon = species[id];
-  return `<img src="${sprite(id)}" alt=""><span><b>${mon.name}</b><small>${sub}</small></span>`;
+  return `${spriteElement(id)}<span><b>${mon.name}</b><small>${sub}</small></span>`;
 }
 
 function koText(max, min) {
@@ -926,7 +938,7 @@ $("partyMemberEditor").addEventListener("change", event=>{
   if (!event.target.matches('[data-field="id"]')) return;
   const card=event.target.closest(".member-editor-card");
   const base=species[event.target.value];
-  card.querySelector("img").src=sprite(event.target.value);
+  card.querySelector(".sprite-slot").innerHTML=spriteElement(event.target.value);
   [["hp",base.hp],["def",base.def],["spd",base.spd],["speed",base.speed]].forEach(([key,value])=>{ card.querySelector(`[data-field="${key}"]`).value=value; });
 });
 $("cancelScan").addEventListener("click", cancelScan);
