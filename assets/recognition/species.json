@@ -15,7 +15,9 @@
       "poison"
     ],
     "hp": 155,
+    "attack": 102,
     "def": 103,
+    "special": 120,
     "spd": 120,
     "speed": 100,
     "dex": 3,
@@ -37,7 +39,9 @@
       "poison"
     ],
     "hp": 155,
+    "attack": 102,
     "def": 103,
+    "special": 120,
     "spd": 120,
     "speed": 100,
     "dex": 3,
@@ -59,7 +63,9 @@
       "flying"
     ],
     "hp": 153,
+    "attack": 104,
     "def": 98,
+    "special": 129,
     "spd": 105,
     "speed": 120,
     "dex": 6,
@@ -81,7 +87,9 @@
       "flying"
     ],
     "hp": 153,
+    "attack": 104,
     "def": 98,
+    "special": 129,
     "spd": 105,
     "speed": 120,
     "dex": 6,
@@ -103,7 +111,9 @@
       "flying"
     ],
     "hp": 153,
+    "attack": 104,
     "def": 98,
+    "special": 129,
     "spd": 105,
     "speed": 120,
     "dex": 6,
@@ -124,7 +134,9 @@
       "water"
     ],
     "hp": 154,
+    "attack": 103,
     "def": 120,
+    "special": 105,
     "spd": 125,
     "speed": 98,
     "dex": 9,
@@ -145,7 +157,9 @@
       "water"
     ],
     "hp": 154,
+    "attack": 103,
     "def": 120,
+    "special": 105,
     "spd": 125,
     "speed": 98,
     "dex": 9,
@@ -167,7 +181,9 @@
       "poison"
     ],
     "hp": 140,
+    "attack": 110,
     "def": 60,
+    "special": 65,
     "spd": 100,
     "speed": 95,
     "dex": 15,
@@ -189,7 +205,9 @@
       "poison"
     ],
     "hp": 140,
+    "attack": 110,
     "def": 60,
+    "special": 65,
     "spd": 100,
     "speed": 95,
     "dex": 15,
@@ -211,7 +229,9 @@
       "flying"
     ],
     "hp": 158,
+    "attack": 100,
     "def": 95,
+    "special": 90,
     "spd": 90,
     "speed": 121,
     "dex": 18,
@@ -233,7 +253,9 @@
       "flying"
     ],
     "hp": 158,
+    "attack": 100,
     "def": 95,
+    "special": 90,
     "spd": 90,
     "speed": 121,
     "dex": 18,
@@ -254,7 +276,9 @@
       "poison"
     ],
     "hp": 135,
+    "attack": 115,
     "def": 89,
+    "special": 85,
     "spd": 99,
     "speed": 100,
     "dex": 24,
@@ -275,7 +299,9 @@
       "electric"
     ],
     "hp": 110,
+    "attack": 75,
     "def": 60,
+    "special": 70,
     "spd": 70,
     "speed": 110,
     "dex": 25,
@@ -296,7 +322,9 @@
       "electric"
     ],
     "hp": 135,
+    "attack": 110,
     "def": 75,
+    "special": 110,
     "spd": 100,
     "speed": 130,
     "dex": 26,
@@ -317,7 +345,9 @@
       "electric"
     ],
     "hp": 135,
+    "attack": 110,
     "def": 75,
+    "special": 110,
     "spd": 100,
     "speed": 130,
     "dex": 26,
@@ -338,7 +368,9 @@
       "electric"
     ],
     "hp": 135,
+    "attack": 110,
     "def": 75,
+    "special": 110,
     "spd": 100,
     "speed": 130,
     "dex": 26,
@@ -359,7 +391,9 @@
       "electric"
     ],
     "hp": 135,
+    "attack": 110,
     "def": 75,
+    "special": 110,
     "spd": 100,
     "speed": 130,
     "dex": 26,
@@ -380,7 +414,9 @@
       "fairy"
     ],
     "hp": 170,
+    "attack": 90,
     "def": 93,
+    "special": 115,
     "spd": 110,
     "speed": 80,
     "dex": 36,
@@ -401,7 +437,9 @@
       "fairy"
     ],
     "hp": 170,
+    "attack": 90,
     "def": 93,
+    "special": 115,
     "spd": 110,
     "speed": 80,
     "dex": 36,
@@ -422,7 +460,9 @@
       "fire"
     ],
     "hp": 148,
+    "attack": 96,
     "def": 95,
+    "special": 101,
     "spd": 120,
     "speed": 120,
     "dex": 38,
@@ -443,7 +483,9 @@
       "fire"
     ],
     "hp": 148,
+    "attack": 96,
     "def": 95,
+    "special": 101,
     "spd": 120,
     "speed": 120,
     "dex": 38,
@@ -465,7 +507,9 @@
       "poison"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 105,
+    "special": 130,
     "spd": 110,
     "speed": 70,
     "dex": 45,
@@ -486,7 +530,9 @@
       "fire"
     ],
     "hp": 165,
+    "attack": 130,
     "def": 100,
+    "special": 120,
     "spd": 100,
     "speed": 115,
     "dex": 59,
@@ -507,7 +553,9 @@
       "fire"
     ],
     "hp": 165,
+    "attack": 130,
     "def": 100,
+    "special": 120,
     "spd": 100,
     "speed": 115,
     "dex": 59,
@@ -528,7 +576,9 @@
       "psychic"
     ],
     "hp": 130,
+    "attack": 70,
     "def": 65,
+    "special": 155,
     "spd": 115,
     "speed": 140,
     "dex": 65,
@@ -549,7 +599,9 @@
       "psychic"
     ],
     "hp": 130,
+    "attack": 70,
     "def": 65,
+    "special": 155,
     "spd": 115,
     "speed": 140,
     "dex": 65,
@@ -570,7 +622,9 @@
       "fighting"
     ],
     "hp": 165,
+    "attack": 150,
     "def": 100,
+    "special": 85,
     "spd": 105,
     "speed": 75,
     "dex": 68,
@@ -592,7 +646,9 @@
       "poison"
     ],
     "hp": 155,
+    "attack": 125,
     "def": 85,
+    "special": 120,
     "spd": 90,
     "speed": 90,
     "dex": 71,
@@ -614,7 +670,9 @@
       "poison"
     ],
     "hp": 155,
+    "attack": 125,
     "def": 85,
+    "special": 120,
     "spd": 90,
     "speed": 90,
     "dex": 71,
@@ -636,7 +694,9 @@
       "psychic"
     ],
     "hp": 170,
+    "attack": 95,
     "def": 130,
+    "special": 120,
     "spd": 100,
     "speed": 50,
     "dex": 80,
@@ -658,7 +718,9 @@
       "psychic"
     ],
     "hp": 170,
+    "attack": 95,
     "def": 130,
+    "special": 120,
     "spd": 100,
     "speed": 50,
     "dex": 80,
@@ -680,7 +742,9 @@
       "psychic"
     ],
     "hp": 170,
+    "attack": 95,
     "def": 130,
+    "special": 120,
     "spd": 100,
     "speed": 50,
     "dex": 80,
@@ -702,7 +766,9 @@
       "poison"
     ],
     "hp": 135,
+    "attack": 85,
     "def": 80,
+    "special": 150,
     "spd": 95,
     "speed": 130,
     "dex": 94,
@@ -724,7 +790,9 @@
       "poison"
     ],
     "hp": 135,
+    "attack": 85,
     "def": 80,
+    "special": 150,
     "spd": 95,
     "speed": 130,
     "dex": 94,
@@ -745,7 +813,9 @@
       "normal"
     ],
     "hp": 180,
+    "attack": 115,
     "def": 100,
+    "special": 60,
     "spd": 100,
     "speed": 110,
     "dex": 115,
@@ -766,7 +836,9 @@
       "normal"
     ],
     "hp": 180,
+    "attack": 115,
     "def": 100,
+    "special": 60,
     "spd": 100,
     "speed": 110,
     "dex": 115,
@@ -788,7 +860,9 @@
       "psychic"
     ],
     "hp": 135,
+    "attack": 95,
     "def": 105,
+    "special": 120,
     "spd": 105,
     "speed": 135,
     "dex": 121,
@@ -810,7 +884,9 @@
       "psychic"
     ],
     "hp": 135,
+    "attack": 95,
     "def": 105,
+    "special": 120,
     "spd": 105,
     "speed": 135,
     "dex": 121,
@@ -831,7 +907,9 @@
       "bug"
     ],
     "hp": 140,
+    "attack": 145,
     "def": 120,
+    "special": 75,
     "spd": 90,
     "speed": 105,
     "dex": 127,
@@ -852,7 +930,9 @@
       "bug"
     ],
     "hp": 140,
+    "attack": 145,
     "def": 120,
+    "special": 75,
     "spd": 90,
     "speed": 105,
     "dex": 127,
@@ -873,7 +953,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 120,
     "def": 115,
+    "special": 60,
     "spd": 90,
     "speed": 130,
     "dex": 128,
@@ -894,7 +976,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 120,
     "def": 115,
+    "special": 60,
     "spd": 90,
     "speed": 130,
     "dex": 128,
@@ -915,7 +999,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 120,
     "def": 115,
+    "special": 60,
     "spd": 90,
     "speed": 130,
     "dex": 128,
@@ -936,7 +1022,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 120,
     "def": 115,
+    "special": 60,
     "spd": 90,
     "speed": 130,
     "dex": 128,
@@ -958,7 +1046,9 @@
       "flying"
     ],
     "hp": 170,
+    "attack": 145,
     "def": 99,
+    "special": 80,
     "spd": 120,
     "speed": 101,
     "dex": 130,
@@ -980,7 +1070,9 @@
       "flying"
     ],
     "hp": 170,
+    "attack": 145,
     "def": 99,
+    "special": 80,
     "spd": 120,
     "speed": 101,
     "dex": 130,
@@ -1001,7 +1093,9 @@
       "normal"
     ],
     "hp": 123,
+    "attack": 68,
     "def": 68,
+    "special": 68,
     "spd": 68,
     "speed": 68,
     "dex": 132,
@@ -1022,7 +1116,9 @@
       "water"
     ],
     "hp": 205,
+    "attack": 85,
     "def": 80,
+    "special": 130,
     "spd": 115,
     "speed": 85,
     "dex": 134,
@@ -1043,7 +1139,9 @@
       "electric"
     ],
     "hp": 140,
+    "attack": 85,
     "def": 80,
+    "special": 130,
     "spd": 115,
     "speed": 150,
     "dex": 135,
@@ -1064,7 +1162,9 @@
       "fire"
     ],
     "hp": 140,
+    "attack": 150,
     "def": 80,
+    "special": 115,
     "spd": 130,
     "speed": 85,
     "dex": 136,
@@ -1086,7 +1186,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 125,
     "def": 85,
+    "special": 80,
     "spd": 95,
     "speed": 150,
     "dex": 142,
@@ -1108,7 +1210,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 125,
     "def": 85,
+    "special": 80,
     "spd": 95,
     "speed": 150,
     "dex": 142,
@@ -1129,7 +1233,9 @@
       "normal"
     ],
     "hp": 235,
+    "attack": 130,
     "def": 85,
+    "special": 85,
     "spd": 130,
     "speed": 50,
     "dex": 143,
@@ -1151,7 +1257,9 @@
       "flying"
     ],
     "hp": 166,
+    "attack": 154,
     "def": 115,
+    "special": 120,
     "spd": 120,
     "speed": 100,
     "dex": 149,
@@ -1173,7 +1281,9 @@
       "flying"
     ],
     "hp": 166,
+    "attack": 154,
     "def": 115,
+    "special": 120,
     "spd": 120,
     "speed": 100,
     "dex": 149,
@@ -1194,7 +1304,9 @@
       "grass"
     ],
     "hp": 155,
+    "attack": 102,
     "def": 120,
+    "special": 103,
     "spd": 120,
     "speed": 100,
     "dex": 154,
@@ -1215,7 +1327,9 @@
       "grass"
     ],
     "hp": 155,
+    "attack": 102,
     "def": 120,
+    "special": 103,
     "spd": 120,
     "speed": 100,
     "dex": 154,
@@ -1236,7 +1350,9 @@
       "fire"
     ],
     "hp": 153,
+    "attack": 104,
     "def": 98,
+    "special": 129,
     "spd": 105,
     "speed": 120,
     "dex": 157,
@@ -1257,7 +1373,9 @@
       "fire"
     ],
     "hp": 153,
+    "attack": 104,
     "def": 98,
+    "special": 129,
     "spd": 105,
     "speed": 120,
     "dex": 157,
@@ -1278,7 +1396,9 @@
       "water"
     ],
     "hp": 160,
+    "attack": 125,
     "def": 120,
+    "special": 99,
     "spd": 103,
     "speed": 98,
     "dex": 160,
@@ -1299,7 +1419,9 @@
       "water"
     ],
     "hp": 160,
+    "attack": 125,
     "def": 120,
+    "special": 99,
     "spd": 103,
     "speed": 98,
     "dex": 160,
@@ -1321,7 +1443,9 @@
       "poison"
     ],
     "hp": 145,
+    "attack": 110,
     "def": 90,
+    "special": 80,
     "spd": 90,
     "speed": 60,
     "dex": 168,
@@ -1342,7 +1466,9 @@
       "electric"
     ],
     "hp": 165,
+    "attack": 95,
     "def": 105,
+    "special": 135,
     "spd": 110,
     "speed": 75,
     "dex": 181,
@@ -1363,7 +1489,9 @@
       "electric"
     ],
     "hp": 165,
+    "attack": 95,
     "def": 105,
+    "special": 135,
     "spd": 110,
     "speed": 75,
     "dex": 181,
@@ -1385,7 +1513,9 @@
       "fairy"
     ],
     "hp": 175,
+    "attack": 70,
     "def": 100,
+    "special": 80,
     "spd": 100,
     "speed": 70,
     "dex": 184,
@@ -1406,7 +1536,9 @@
       "water"
     ],
     "hp": 165,
+    "attack": 95,
     "def": 95,
+    "special": 110,
     "spd": 120,
     "speed": 90,
     "dex": 186,
@@ -1427,7 +1559,9 @@
       "psychic"
     ],
     "hp": 140,
+    "attack": 85,
     "def": 80,
+    "special": 150,
     "spd": 115,
     "speed": 130,
     "dex": 196,
@@ -1448,7 +1582,9 @@
       "dark"
     ],
     "hp": 170,
+    "attack": 85,
     "def": 130,
+    "special": 80,
     "spd": 150,
     "speed": 85,
     "dex": 197,
@@ -1470,7 +1606,9 @@
       "psychic"
     ],
     "hp": 170,
+    "attack": 95,
     "def": 100,
+    "special": 120,
     "spd": 130,
     "speed": 50,
     "dex": 199,
@@ -1492,7 +1630,9 @@
       "psychic"
     ],
     "hp": 170,
+    "attack": 95,
     "def": 100,
+    "special": 120,
     "spd": 130,
     "speed": 50,
     "dex": 199,
@@ -1514,7 +1654,9 @@
       "steel"
     ],
     "hp": 150,
+    "attack": 110,
     "def": 160,
+    "special": 80,
     "spd": 80,
     "speed": 60,
     "dex": 205,
@@ -1536,7 +1678,9 @@
       "ground"
     ],
     "hp": 150,
+    "attack": 105,
     "def": 220,
+    "special": 75,
     "spd": 85,
     "speed": 50,
     "dex": 208,
@@ -1558,7 +1702,9 @@
       "ground"
     ],
     "hp": 150,
+    "attack": 105,
     "def": 220,
+    "special": 75,
     "spd": 85,
     "speed": 50,
     "dex": 208,
@@ -1580,7 +1726,9 @@
       "poison"
     ],
     "hp": 140,
+    "attack": 115,
     "def": 105,
+    "special": 75,
     "spd": 75,
     "speed": 105,
     "dex": 211,
@@ -1602,7 +1750,9 @@
       "steel"
     ],
     "hp": 145,
+    "attack": 150,
     "def": 120,
+    "special": 75,
     "spd": 100,
     "speed": 85,
     "dex": 212,
@@ -1624,7 +1774,9 @@
       "steel"
     ],
     "hp": 145,
+    "attack": 150,
     "def": 120,
+    "special": 75,
     "spd": 100,
     "speed": 85,
     "dex": 212,
@@ -1646,7 +1798,9 @@
       "fighting"
     ],
     "hp": 155,
+    "attack": 145,
     "def": 95,
+    "special": 60,
     "spd": 115,
     "speed": 105,
     "dex": 214,
@@ -1668,7 +1822,9 @@
       "fighting"
     ],
     "hp": 155,
+    "attack": 145,
     "def": 95,
+    "special": 60,
     "spd": 115,
     "speed": 105,
     "dex": 214,
@@ -1690,7 +1846,9 @@
       "flying"
     ],
     "hp": 140,
+    "attack": 100,
     "def": 160,
+    "special": 60,
     "spd": 90,
     "speed": 90,
     "dex": 227,
@@ -1712,7 +1870,9 @@
       "flying"
     ],
     "hp": 140,
+    "attack": 100,
     "def": 160,
+    "special": 60,
     "spd": 90,
     "speed": 90,
     "dex": 227,
@@ -1734,7 +1894,9 @@
       "fire"
     ],
     "hp": 150,
+    "attack": 110,
     "def": 70,
+    "special": 130,
     "spd": 100,
     "speed": 115,
     "dex": 229,
@@ -1756,7 +1918,9 @@
       "fire"
     ],
     "hp": 150,
+    "attack": 110,
     "def": 70,
+    "special": 130,
     "spd": 100,
     "speed": 115,
     "dex": 229,
@@ -1778,7 +1942,9 @@
       "dark"
     ],
     "hp": 175,
+    "attack": 154,
     "def": 130,
+    "special": 115,
     "spd": 120,
     "speed": 81,
     "dex": 248,
@@ -1800,7 +1966,9 @@
       "dark"
     ],
     "hp": 175,
+    "attack": 154,
     "def": 130,
+    "special": 115,
     "spd": 120,
     "speed": 81,
     "dex": 248,
@@ -1821,7 +1989,9 @@
       "grass"
     ],
     "hp": 145,
+    "attack": 105,
     "def": 85,
+    "special": 125,
     "spd": 105,
     "speed": 140,
     "dex": 254,
@@ -1842,7 +2012,9 @@
       "grass"
     ],
     "hp": 145,
+    "attack": 105,
     "def": 85,
+    "special": 125,
     "spd": 105,
     "speed": 140,
     "dex": 254,
@@ -1864,7 +2036,9 @@
       "fighting"
     ],
     "hp": 155,
+    "attack": 140,
     "def": 90,
+    "special": 130,
     "spd": 90,
     "speed": 100,
     "dex": 257,
@@ -1886,7 +2060,9 @@
       "fighting"
     ],
     "hp": 155,
+    "attack": 140,
     "def": 90,
+    "special": 130,
     "spd": 90,
     "speed": 100,
     "dex": 257,
@@ -1908,7 +2084,9 @@
       "ground"
     ],
     "hp": 175,
+    "attack": 130,
     "def": 110,
+    "special": 105,
     "spd": 110,
     "speed": 80,
     "dex": 260,
@@ -1930,7 +2108,9 @@
       "ground"
     ],
     "hp": 175,
+    "attack": 130,
     "def": 110,
+    "special": 105,
     "spd": 110,
     "speed": 80,
     "dex": 260,
@@ -1952,7 +2132,9 @@
       "flying"
     ],
     "hp": 135,
+    "attack": 70,
     "def": 120,
+    "special": 115,
     "spd": 90,
     "speed": 85,
     "dex": 279,
@@ -1974,7 +2156,9 @@
       "fairy"
     ],
     "hp": 143,
+    "attack": 85,
     "def": 85,
+    "special": 145,
     "spd": 135,
     "speed": 100,
     "dex": 282,
@@ -1996,7 +2180,9 @@
       "fairy"
     ],
     "hp": 143,
+    "attack": 85,
     "def": 85,
+    "special": 145,
     "spd": 135,
     "speed": 100,
     "dex": 282,
@@ -2018,7 +2204,9 @@
       "ghost"
     ],
     "hp": 125,
+    "attack": 95,
     "def": 95,
+    "special": 85,
     "spd": 85,
     "speed": 70,
     "dex": 302,
@@ -2040,7 +2228,9 @@
       "ghost"
     ],
     "hp": 125,
+    "attack": 95,
     "def": 95,
+    "special": 85,
     "spd": 85,
     "speed": 70,
     "dex": 302,
@@ -2062,7 +2252,9 @@
       "fairy"
     ],
     "hp": 125,
+    "attack": 105,
     "def": 105,
+    "special": 75,
     "spd": 75,
     "speed": 70,
     "dex": 303,
@@ -2084,7 +2276,9 @@
       "fairy"
     ],
     "hp": 125,
+    "attack": 105,
     "def": 105,
+    "special": 75,
     "spd": 75,
     "speed": 70,
     "dex": 303,
@@ -2106,7 +2300,9 @@
       "rock"
     ],
     "hp": 145,
+    "attack": 130,
     "def": 200,
+    "special": 80,
     "spd": 80,
     "speed": 70,
     "dex": 306,
@@ -2128,7 +2324,9 @@
       "rock"
     ],
     "hp": 145,
+    "attack": 130,
     "def": 200,
+    "special": 80,
     "spd": 80,
     "speed": 70,
     "dex": 306,
@@ -2150,7 +2348,9 @@
       "psychic"
     ],
     "hp": 135,
+    "attack": 80,
     "def": 95,
+    "special": 80,
     "spd": 95,
     "speed": 100,
     "dex": 308,
@@ -2172,7 +2372,9 @@
       "psychic"
     ],
     "hp": 135,
+    "attack": 80,
     "def": 95,
+    "special": 80,
     "spd": 95,
     "speed": 100,
     "dex": 308,
@@ -2193,7 +2395,9 @@
       "electric"
     ],
     "hp": 145,
+    "attack": 95,
     "def": 80,
+    "special": 125,
     "spd": 80,
     "speed": 125,
     "dex": 310,
@@ -2214,7 +2418,9 @@
       "electric"
     ],
     "hp": 145,
+    "attack": 95,
     "def": 80,
+    "special": 125,
     "spd": 80,
     "speed": 125,
     "dex": 310,
@@ -2236,7 +2442,9 @@
       "dark"
     ],
     "hp": 145,
+    "attack": 140,
     "def": 60,
+    "special": 115,
     "spd": 60,
     "speed": 115,
     "dex": 319,
@@ -2258,7 +2466,9 @@
       "dark"
     ],
     "hp": 145,
+    "attack": 140,
     "def": 60,
+    "special": 115,
     "spd": 60,
     "speed": 115,
     "dex": 319,
@@ -2280,7 +2490,9 @@
       "ground"
     ],
     "hp": 145,
+    "attack": 120,
     "def": 90,
+    "special": 125,
     "spd": 95,
     "speed": 60,
     "dex": 323,
@@ -2302,7 +2514,9 @@
       "ground"
     ],
     "hp": 145,
+    "attack": 120,
     "def": 90,
+    "special": 125,
     "spd": 95,
     "speed": 60,
     "dex": 323,
@@ -2323,7 +2537,9 @@
       "fire"
     ],
     "hp": 145,
+    "attack": 105,
     "def": 160,
+    "special": 105,
     "spd": 90,
     "speed": 40,
     "dex": 324,
@@ -2345,7 +2561,9 @@
       "flying"
     ],
     "hp": 150,
+    "attack": 90,
     "def": 110,
+    "special": 90,
     "spd": 125,
     "speed": 100,
     "dex": 334,
@@ -2367,7 +2585,9 @@
       "flying"
     ],
     "hp": 150,
+    "attack": 90,
     "def": 110,
+    "special": 90,
     "spd": 125,
     "speed": 100,
     "dex": 334,
@@ -2388,7 +2608,9 @@
       "water"
     ],
     "hp": 170,
+    "attack": 80,
     "def": 99,
+    "special": 120,
     "spd": 145,
     "speed": 101,
     "dex": 350,
@@ -2409,7 +2631,9 @@
       "normal"
     ],
     "hp": 145,
+    "attack": 90,
     "def": 90,
+    "special": 90,
     "spd": 90,
     "speed": 90,
     "dex": 351,
@@ -2430,7 +2654,9 @@
       "normal"
     ],
     "hp": 145,
+    "attack": 90,
     "def": 90,
+    "special": 90,
     "spd": 90,
     "speed": 90,
     "dex": 351,
@@ -2451,7 +2677,9 @@
       "normal"
     ],
     "hp": 145,
+    "attack": 90,
     "def": 90,
+    "special": 90,
     "spd": 90,
     "speed": 90,
     "dex": 351,
@@ -2472,7 +2700,9 @@
       "normal"
     ],
     "hp": 145,
+    "attack": 90,
     "def": 90,
+    "special": 90,
     "spd": 90,
     "speed": 90,
     "dex": 351,
@@ -2493,7 +2723,9 @@
       "ghost"
     ],
     "hp": 139,
+    "attack": 135,
     "def": 85,
+    "special": 103,
     "spd": 83,
     "speed": 85,
     "dex": 354,
@@ -2514,7 +2746,9 @@
       "ghost"
     ],
     "hp": 139,
+    "attack": 135,
     "def": 85,
+    "special": 103,
     "spd": 83,
     "speed": 85,
     "dex": 354,
@@ -2535,7 +2769,9 @@
       "psychic"
     ],
     "hp": 150,
+    "attack": 70,
     "def": 100,
+    "special": 115,
     "spd": 110,
     "speed": 85,
     "dex": 358,
@@ -2556,7 +2792,9 @@
       "psychic"
     ],
     "hp": 150,
+    "attack": 70,
     "def": 100,
+    "special": 115,
     "spd": 110,
     "speed": 85,
     "dex": 358,
@@ -2577,7 +2815,9 @@
       "dark"
     ],
     "hp": 140,
+    "attack": 150,
     "def": 80,
+    "special": 95,
     "spd": 80,
     "speed": 95,
     "dex": 359,
@@ -2598,7 +2838,9 @@
       "dark"
     ],
     "hp": 140,
+    "attack": 150,
     "def": 80,
+    "special": 95,
     "spd": 80,
     "speed": 95,
     "dex": 359,
@@ -2619,7 +2861,9 @@
       "ice"
     ],
     "hp": 155,
+    "attack": 100,
     "def": 100,
+    "special": 100,
     "spd": 100,
     "speed": 100,
     "dex": 362,
@@ -2640,7 +2884,9 @@
       "ice"
     ],
     "hp": 155,
+    "attack": 100,
     "def": 100,
+    "special": 100,
     "spd": 100,
     "speed": 100,
     "dex": 362,
@@ -2662,7 +2908,9 @@
       "psychic"
     ],
     "hp": 155,
+    "attack": 155,
     "def": 150,
+    "special": 115,
     "spd": 110,
     "speed": 90,
     "dex": 376,
@@ -2684,7 +2932,9 @@
       "psychic"
     ],
     "hp": 155,
+    "attack": 155,
     "def": 150,
+    "special": 115,
     "spd": 110,
     "speed": 90,
     "dex": 376,
@@ -2706,7 +2956,9 @@
       "ground"
     ],
     "hp": 170,
+    "attack": 129,
     "def": 125,
+    "special": 95,
     "spd": 105,
     "speed": 76,
     "dex": 389,
@@ -2728,7 +2980,9 @@
       "fighting"
     ],
     "hp": 151,
+    "attack": 124,
     "def": 91,
+    "special": 124,
     "spd": 91,
     "speed": 128,
     "dex": 392,
@@ -2750,7 +3004,9 @@
       "steel"
     ],
     "hp": 159,
+    "attack": 106,
     "def": 108,
+    "special": 131,
     "spd": 121,
     "speed": 80,
     "dex": 395,
@@ -2772,7 +3028,9 @@
       "flying"
     ],
     "hp": 160,
+    "attack": 140,
     "def": 90,
+    "special": 70,
     "spd": 80,
     "speed": 120,
     "dex": 398,
@@ -2794,7 +3052,9 @@
       "flying"
     ],
     "hp": 160,
+    "attack": 140,
     "def": 90,
+    "special": 70,
     "spd": 80,
     "speed": 120,
     "dex": 398,
@@ -2815,7 +3075,9 @@
       "electric"
     ],
     "hp": 155,
+    "attack": 140,
     "def": 99,
+    "special": 115,
     "spd": 99,
     "speed": 90,
     "dex": 405,
@@ -2837,7 +3099,9 @@
       "poison"
     ],
     "hp": 135,
+    "attack": 90,
     "def": 85,
+    "special": 145,
     "spd": 125,
     "speed": 110,
     "dex": 407,
@@ -2858,7 +3122,9 @@
       "rock"
     ],
     "hp": 172,
+    "attack": 185,
     "def": 80,
+    "special": 85,
     "spd": 70,
     "speed": 78,
     "dex": 409,
@@ -2880,7 +3146,9 @@
       "steel"
     ],
     "hp": 135,
+    "attack": 72,
     "def": 188,
+    "special": 67,
     "spd": 158,
     "speed": 50,
     "dex": 411,
@@ -2901,7 +3169,9 @@
       "normal"
     ],
     "hp": 140,
+    "attack": 96,
     "def": 104,
+    "special": 74,
     "spd": 116,
     "speed": 125,
     "dex": 428,
@@ -2922,7 +3192,9 @@
       "normal"
     ],
     "hp": 140,
+    "attack": 96,
     "def": 104,
+    "special": 74,
     "spd": 116,
     "speed": 125,
     "dex": 428,
@@ -2944,7 +3216,9 @@
       "dark"
     ],
     "hp": 125,
+    "attack": 112,
     "def": 128,
+    "special": 112,
     "spd": 128,
     "speed": 55,
     "dex": 442,
@@ -2966,7 +3240,9 @@
       "ground"
     ],
     "hp": 183,
+    "attack": 150,
     "def": 115,
+    "special": 100,
     "spd": 105,
     "speed": 122,
     "dex": 445,
@@ -2988,7 +3264,9 @@
       "ground"
     ],
     "hp": 183,
+    "attack": 150,
     "def": 115,
+    "special": 100,
     "spd": 105,
     "speed": 122,
     "dex": 445,
@@ -3010,7 +3288,9 @@
       "steel"
     ],
     "hp": 145,
+    "attack": 130,
     "def": 90,
+    "special": 135,
     "spd": 90,
     "speed": 110,
     "dex": 448,
@@ -3032,7 +3312,9 @@
       "steel"
     ],
     "hp": 145,
+    "attack": 130,
     "def": 90,
+    "special": 135,
     "spd": 90,
     "speed": 110,
     "dex": 448,
@@ -3053,7 +3335,9 @@
       "ground"
     ],
     "hp": 183,
+    "attack": 132,
     "def": 138,
+    "special": 88,
     "spd": 92,
     "speed": 67,
     "dex": 450,
@@ -3075,7 +3359,9 @@
       "fighting"
     ],
     "hp": 158,
+    "attack": 126,
     "def": 85,
+    "special": 106,
     "spd": 85,
     "speed": 105,
     "dex": 454,
@@ -3097,7 +3383,9 @@
       "ice"
     ],
     "hp": 165,
+    "attack": 112,
     "def": 95,
+    "special": 112,
     "spd": 105,
     "speed": 80,
     "dex": 460,
@@ -3119,7 +3407,9 @@
       "ice"
     ],
     "hp": 165,
+    "attack": 112,
     "def": 95,
+    "special": 112,
     "spd": 105,
     "speed": 80,
     "dex": 460,
@@ -3141,7 +3431,9 @@
       "ice"
     ],
     "hp": 145,
+    "attack": 140,
     "def": 85,
+    "special": 65,
     "spd": 105,
     "speed": 145,
     "dex": 461,
@@ -3163,7 +3455,9 @@
       "rock"
     ],
     "hp": 190,
+    "attack": 160,
     "def": 150,
+    "special": 75,
     "spd": 75,
     "speed": 60,
     "dex": 464,
@@ -3184,7 +3478,9 @@
       "grass"
     ],
     "hp": 140,
+    "attack": 130,
     "def": 150,
+    "special": 80,
     "spd": 85,
     "speed": 115,
     "dex": 470,
@@ -3205,7 +3501,9 @@
       "ice"
     ],
     "hp": 140,
+    "attack": 80,
     "def": 130,
+    "special": 150,
     "spd": 115,
     "speed": 85,
     "dex": 471,
@@ -3227,7 +3525,9 @@
       "flying"
     ],
     "hp": 150,
+    "attack": 115,
     "def": 145,
+    "special": 65,
     "spd": 95,
     "speed": 115,
     "dex": 472,
@@ -3249,7 +3549,9 @@
       "ground"
     ],
     "hp": 185,
+    "attack": 150,
     "def": 100,
+    "special": 90,
     "spd": 80,
     "speed": 100,
     "dex": 473,
@@ -3271,7 +3573,9 @@
       "fighting"
     ],
     "hp": 143,
+    "attack": 145,
     "def": 85,
+    "special": 85,
     "spd": 135,
     "speed": 100,
     "dex": 475,
@@ -3293,7 +3597,9 @@
       "fighting"
     ],
     "hp": 143,
+    "attack": 145,
     "def": 85,
+    "special": 85,
     "spd": 135,
     "speed": 100,
     "dex": 475,
@@ -3315,7 +3621,9 @@
       "ghost"
     ],
     "hp": 145,
+    "attack": 100,
     "def": 90,
+    "special": 100,
     "spd": 90,
     "speed": 130,
     "dex": 478,
@@ -3337,7 +3645,9 @@
       "ghost"
     ],
     "hp": 145,
+    "attack": 100,
     "def": 90,
+    "special": 100,
     "spd": 90,
     "speed": 130,
     "dex": 478,
@@ -3359,7 +3669,9 @@
       "ghost"
     ],
     "hp": 125,
+    "attack": 70,
     "def": 97,
+    "special": 115,
     "spd": 97,
     "speed": 111,
     "dex": 479,
@@ -3381,7 +3693,9 @@
       "ghost"
     ],
     "hp": 125,
+    "attack": 70,
     "def": 97,
+    "special": 115,
     "spd": 97,
     "speed": 111,
     "dex": 479,
@@ -3403,7 +3717,9 @@
       "ghost"
     ],
     "hp": 125,
+    "attack": 70,
     "def": 97,
+    "special": 115,
     "spd": 97,
     "speed": 111,
     "dex": 479,
@@ -3425,7 +3741,9 @@
       "ghost"
     ],
     "hp": 125,
+    "attack": 70,
     "def": 97,
+    "special": 115,
     "spd": 97,
     "speed": 111,
     "dex": 479,
@@ -3447,7 +3765,9 @@
       "ghost"
     ],
     "hp": 125,
+    "attack": 70,
     "def": 97,
+    "special": 115,
     "spd": 97,
     "speed": 111,
     "dex": 479,
@@ -3469,7 +3789,9 @@
       "ghost"
     ],
     "hp": 125,
+    "attack": 70,
     "def": 97,
+    "special": 115,
     "spd": 97,
     "speed": 111,
     "dex": 479,
@@ -3490,7 +3812,9 @@
       "grass"
     ],
     "hp": 150,
+    "attack": 95,
     "def": 115,
+    "special": 95,
     "spd": 115,
     "speed": 133,
     "dex": 497,
@@ -3512,7 +3836,9 @@
       "fighting"
     ],
     "hp": 185,
+    "attack": 143,
     "def": 85,
+    "special": 120,
     "spd": 85,
     "speed": 85,
     "dex": 500,
@@ -3534,7 +3860,9 @@
       "fighting"
     ],
     "hp": 185,
+    "attack": 143,
     "def": 85,
+    "special": 120,
     "spd": 85,
     "speed": 85,
     "dex": 500,
@@ -3555,7 +3883,9 @@
       "water"
     ],
     "hp": 170,
+    "attack": 120,
     "def": 105,
+    "special": 128,
     "spd": 90,
     "speed": 90,
     "dex": 503,
@@ -3576,7 +3906,9 @@
       "water"
     ],
     "hp": 170,
+    "attack": 120,
     "def": 105,
+    "special": 128,
     "spd": 90,
     "speed": 90,
     "dex": 503,
@@ -3597,7 +3929,9 @@
       "normal"
     ],
     "hp": 135,
+    "attack": 105,
     "def": 89,
+    "special": 80,
     "spd": 89,
     "speed": 97,
     "dex": 505,
@@ -3618,7 +3952,9 @@
       "dark"
     ],
     "hp": 139,
+    "attack": 108,
     "def": 70,
+    "special": 108,
     "spd": 70,
     "speed": 126,
     "dex": 510,
@@ -3639,7 +3975,9 @@
       "grass"
     ],
     "hp": 150,
+    "attack": 118,
     "def": 83,
+    "special": 118,
     "spd": 83,
     "speed": 121,
     "dex": 512,
@@ -3660,7 +3998,9 @@
       "fire"
     ],
     "hp": 150,
+    "attack": 118,
     "def": 83,
+    "special": 118,
     "spd": 83,
     "speed": 121,
     "dex": 514,
@@ -3681,7 +4021,9 @@
       "water"
     ],
     "hp": 150,
+    "attack": 118,
     "def": 83,
+    "special": 118,
     "spd": 83,
     "speed": 121,
     "dex": 516,
@@ -3702,7 +4044,9 @@
       "psychic"
     ],
     "hp": 191,
+    "attack": 75,
     "def": 105,
+    "special": 127,
     "spd": 115,
     "speed": 49,
     "dex": 518,
@@ -3724,7 +4068,9 @@
       "steel"
     ],
     "hp": 185,
+    "attack": 155,
     "def": 80,
+    "special": 70,
     "spd": 85,
     "speed": 108,
     "dex": 530,
@@ -3746,7 +4092,9 @@
       "steel"
     ],
     "hp": 185,
+    "attack": 155,
     "def": 80,
+    "special": 70,
     "spd": 85,
     "speed": 108,
     "dex": 530,
@@ -3767,7 +4115,9 @@
       "normal"
     ],
     "hp": 178,
+    "attack": 80,
     "def": 106,
+    "special": 80,
     "spd": 106,
     "speed": 70,
     "dex": 531,
@@ -3788,7 +4138,9 @@
       "normal"
     ],
     "hp": 178,
+    "attack": 80,
     "def": 106,
+    "special": 80,
     "spd": 106,
     "speed": 70,
     "dex": 531,
@@ -3809,7 +4161,9 @@
       "fighting"
     ],
     "hp": 180,
+    "attack": 160,
     "def": 115,
+    "special": 75,
     "spd": 85,
     "speed": 65,
     "dex": 534,
@@ -3831,7 +4185,9 @@
       "poison"
     ],
     "hp": 135,
+    "attack": 120,
     "def": 109,
+    "special": 75,
     "spd": 89,
     "speed": 132,
     "dex": 545,
@@ -3853,7 +4209,9 @@
       "poison"
     ],
     "hp": 135,
+    "attack": 120,
     "def": 109,
+    "special": 75,
     "spd": 89,
     "speed": 132,
     "dex": 545,
@@ -3875,7 +4233,9 @@
       "fairy"
     ],
     "hp": 135,
+    "attack": 87,
     "def": 105,
+    "special": 97,
     "spd": 95,
     "speed": 136,
     "dex": 547,
@@ -3897,7 +4257,9 @@
       "dark"
     ],
     "hp": 170,
+    "attack": 137,
     "def": 100,
+    "special": 85,
     "spd": 90,
     "speed": 112,
     "dex": 553,
@@ -3919,7 +4281,9 @@
       "fighting"
     ],
     "hp": 140,
+    "attack": 110,
     "def": 135,
+    "special": 65,
     "spd": 135,
     "speed": 78,
     "dex": 560,
@@ -3941,7 +4305,9 @@
       "fighting"
     ],
     "hp": 140,
+    "attack": 110,
     "def": 135,
+    "special": 65,
     "spd": 135,
     "speed": 78,
     "dex": 560,
@@ -3962,7 +4328,9 @@
       "ghost"
     ],
     "hp": 133,
+    "attack": 70,
     "def": 165,
+    "special": 115,
     "spd": 125,
     "speed": 50,
     "dex": 563,
@@ -3983,7 +4351,9 @@
       "poison"
     ],
     "hp": 155,
+    "attack": 115,
     "def": 102,
+    "special": 80,
     "spd": 102,
     "speed": 95,
     "dex": 569,
@@ -4004,7 +4374,9 @@
       "dark"
     ],
     "hp": 135,
+    "attack": 125,
     "def": 80,
+    "special": 140,
     "spd": 80,
     "speed": 125,
     "dex": 571,
@@ -4025,7 +4397,9 @@
       "dark"
     ],
     "hp": 135,
+    "attack": 125,
     "def": 80,
+    "special": 140,
     "spd": 80,
     "speed": 125,
     "dex": 571,
@@ -4046,7 +4420,9 @@
       "psychic"
     ],
     "hp": 185,
+    "attack": 85,
     "def": 95,
+    "special": 145,
     "spd": 105,
     "speed": 50,
     "dex": 579,
@@ -4067,7 +4443,9 @@
       "ice"
     ],
     "hp": 146,
+    "attack": 115,
     "def": 105,
+    "special": 130,
     "spd": 115,
     "speed": 99,
     "dex": 584,
@@ -4089,7 +4467,9 @@
       "flying"
     ],
     "hp": 130,
+    "attack": 95,
     "def": 80,
+    "special": 95,
     "spd": 80,
     "speed": 123,
     "dex": 587,
@@ -4110,7 +4490,9 @@
       "electric"
     ],
     "hp": 160,
+    "attack": 135,
     "def": 100,
+    "special": 125,
     "spd": 100,
     "speed": 70,
     "dex": 604,
@@ -4131,7 +4513,9 @@
       "electric"
     ],
     "hp": 160,
+    "attack": 135,
     "def": 100,
+    "special": 125,
     "spd": 100,
     "speed": 70,
     "dex": 604,
@@ -4153,7 +4537,9 @@
       "fire"
     ],
     "hp": 135,
+    "attack": 75,
     "def": 110,
+    "special": 165,
     "spd": 110,
     "speed": 100,
     "dex": 609,
@@ -4175,7 +4561,9 @@
       "fire"
     ],
     "hp": 135,
+    "attack": 75,
     "def": 110,
+    "special": 165,
     "spd": 110,
     "speed": 100,
     "dex": 609,
@@ -4196,7 +4584,9 @@
       "ice"
     ],
     "hp": 170,
+    "attack": 150,
     "def": 100,
+    "special": 90,
     "spd": 100,
     "speed": 70,
     "dex": 614,
@@ -4218,7 +4608,9 @@
       "electric"
     ],
     "hp": 184,
+    "attack": 86,
     "def": 104,
+    "special": 101,
     "spd": 119,
     "speed": 52,
     "dex": 618,
@@ -4240,7 +4632,9 @@
       "electric"
     ],
     "hp": 184,
+    "attack": 86,
     "def": 104,
+    "special": 101,
     "spd": 119,
     "speed": 52,
     "dex": 618,
@@ -4262,7 +4656,9 @@
       "ghost"
     ],
     "hp": 164,
+    "attack": 144,
     "def": 100,
+    "special": 75,
     "spd": 100,
     "speed": 75,
     "dex": 623,
@@ -4284,7 +4680,9 @@
       "ghost"
     ],
     "hp": 164,
+    "attack": 144,
     "def": 100,
+    "special": 75,
     "spd": 100,
     "speed": 75,
     "dex": 623,
@@ -4306,7 +4704,9 @@
       "dragon"
     ],
     "hp": 167,
+    "attack": 125,
     "def": 110,
+    "special": 145,
     "spd": 110,
     "speed": 118,
     "dex": 635,
@@ -4328,7 +4728,9 @@
       "fire"
     ],
     "hp": 160,
+    "attack": 80,
     "def": 85,
+    "special": 155,
     "spd": 125,
     "speed": 120,
     "dex": 637,
@@ -4350,7 +4752,9 @@
       "fighting"
     ],
     "hp": 163,
+    "attack": 127,
     "def": 142,
+    "special": 94,
     "spd": 95,
     "speed": 84,
     "dex": 652,
@@ -4372,7 +4776,9 @@
       "fighting"
     ],
     "hp": 163,
+    "attack": 127,
     "def": 142,
+    "special": 94,
     "spd": 95,
     "speed": 84,
     "dex": 652,
@@ -4394,7 +4800,9 @@
       "psychic"
     ],
     "hp": 150,
+    "attack": 89,
     "def": 92,
+    "special": 134,
     "spd": 120,
     "speed": 124,
     "dex": 655,
@@ -4416,7 +4824,9 @@
       "psychic"
     ],
     "hp": 150,
+    "attack": 89,
     "def": 92,
+    "special": 134,
     "spd": 120,
     "speed": 124,
     "dex": 655,
@@ -4438,7 +4848,9 @@
       "dark"
     ],
     "hp": 147,
+    "attack": 115,
     "def": 87,
+    "special": 123,
     "spd": 91,
     "speed": 142,
     "dex": 658,
@@ -4460,7 +4872,9 @@
       "dark"
     ],
     "hp": 147,
+    "attack": 115,
     "def": 87,
+    "special": 123,
     "spd": 91,
     "speed": 142,
     "dex": 658,
@@ -4482,7 +4896,9 @@
       "ground"
     ],
     "hp": 160,
+    "attack": 76,
     "def": 97,
+    "special": 70,
     "spd": 97,
     "speed": 98,
     "dex": 660,
@@ -4504,7 +4920,9 @@
       "flying"
     ],
     "hp": 153,
+    "attack": 101,
     "def": 91,
+    "special": 94,
     "spd": 89,
     "speed": 146,
     "dex": 663,
@@ -4526,7 +4944,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4548,7 +4968,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4570,7 +4992,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4592,7 +5016,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4614,7 +5040,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4636,7 +5064,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4658,7 +5088,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4680,7 +5112,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4702,7 +5136,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4724,7 +5160,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4746,7 +5184,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4768,7 +5208,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4790,7 +5232,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4812,7 +5256,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4834,7 +5280,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4856,7 +5304,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4878,7 +5328,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4900,7 +5352,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4922,7 +5376,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4944,7 +5400,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 72,
     "def": 70,
+    "special": 110,
     "spd": 70,
     "speed": 109,
     "dex": 666,
@@ -4966,7 +5424,9 @@
       "normal"
     ],
     "hp": 161,
+    "attack": 88,
     "def": 92,
+    "special": 129,
     "spd": 86,
     "speed": 126,
     "dex": 668,
@@ -4988,7 +5448,9 @@
       "normal"
     ],
     "hp": 161,
+    "attack": 88,
     "def": 92,
+    "special": 129,
     "spd": 86,
     "speed": 126,
     "dex": 668,
@@ -5010,7 +5472,9 @@
       "normal"
     ],
     "hp": 161,
+    "attack": 88,
     "def": 92,
+    "special": 129,
     "spd": 86,
     "speed": 126,
     "dex": 668,
@@ -5031,7 +5495,9 @@
       "fairy"
     ],
     "hp": 129,
+    "attack": 65,
     "def": 67,
+    "special": 95,
     "spd": 118,
     "speed": 72,
     "dex": 670,
@@ -5052,7 +5518,9 @@
       "fairy"
     ],
     "hp": 129,
+    "attack": 65,
     "def": 67,
+    "special": 95,
     "spd": 118,
     "speed": 72,
     "dex": 670,
@@ -5073,7 +5541,9 @@
       "fairy"
     ],
     "hp": 153,
+    "attack": 85,
     "def": 88,
+    "special": 132,
     "spd": 174,
     "speed": 95,
     "dex": 671,
@@ -5094,7 +5564,9 @@
       "fairy"
     ],
     "hp": 153,
+    "attack": 85,
     "def": 88,
+    "special": 132,
     "spd": 174,
     "speed": 95,
     "dex": 671,
@@ -5115,7 +5587,9 @@
       "fairy"
     ],
     "hp": 153,
+    "attack": 85,
     "def": 88,
+    "special": 132,
     "spd": 174,
     "speed": 95,
     "dex": 671,
@@ -5136,7 +5610,9 @@
       "fairy"
     ],
     "hp": 153,
+    "attack": 85,
     "def": 88,
+    "special": 132,
     "spd": 174,
     "speed": 95,
     "dex": 671,
@@ -5157,7 +5633,9 @@
       "fairy"
     ],
     "hp": 153,
+    "attack": 85,
     "def": 88,
+    "special": 132,
     "spd": 174,
     "speed": 95,
     "dex": 671,
@@ -5179,7 +5657,9 @@
       "dark"
     ],
     "hp": 170,
+    "attack": 144,
     "def": 98,
+    "special": 89,
     "spd": 91,
     "speed": 78,
     "dex": 675,
@@ -5200,7 +5680,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 80,
+    "special": 85,
     "spd": 110,
     "speed": 122,
     "dex": 676,
@@ -5221,7 +5703,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 80,
+    "special": 85,
     "spd": 110,
     "speed": 122,
     "dex": 676,
@@ -5242,7 +5726,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 80,
+    "special": 85,
     "spd": 110,
     "speed": 122,
     "dex": 676,
@@ -5263,7 +5749,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 80,
+    "special": 85,
     "spd": 110,
     "speed": 122,
     "dex": 676,
@@ -5284,7 +5772,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 80,
+    "special": 85,
     "spd": 110,
     "speed": 122,
     "dex": 676,
@@ -5305,7 +5795,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 80,
+    "special": 85,
     "spd": 110,
     "speed": 122,
     "dex": 676,
@@ -5326,7 +5818,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 80,
+    "special": 85,
     "spd": 110,
     "speed": 122,
     "dex": 676,
@@ -5347,7 +5841,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 80,
+    "special": 85,
     "spd": 110,
     "speed": 122,
     "dex": 676,
@@ -5368,7 +5864,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 80,
+    "special": 85,
     "spd": 110,
     "speed": 122,
     "dex": 676,
@@ -5389,7 +5887,9 @@
       "normal"
     ],
     "hp": 150,
+    "attack": 100,
     "def": 80,
+    "special": 85,
     "spd": 110,
     "speed": 122,
     "dex": 676,
@@ -5410,7 +5910,9 @@
       "psychic"
     ],
     "hp": 149,
+    "attack": 68,
     "def": 96,
+    "special": 103,
     "spd": 101,
     "speed": 124,
     "dex": 678,
@@ -5431,7 +5933,9 @@
       "psychic"
     ],
     "hp": 149,
+    "attack": 68,
     "def": 96,
+    "special": 103,
     "spd": 101,
     "speed": 124,
     "dex": 678,
@@ -5452,7 +5956,9 @@
       "psychic"
     ],
     "hp": 149,
+    "attack": 68,
     "def": 96,
+    "special": 103,
     "spd": 101,
     "speed": 124,
     "dex": 678,
@@ -5474,7 +5980,9 @@
       "ghost"
     ],
     "hp": 135,
+    "attack": 70,
     "def": 160,
+    "special": 70,
     "spd": 160,
     "speed": 80,
     "dex": 681,
@@ -5496,7 +6004,9 @@
       "ghost"
     ],
     "hp": 135,
+    "attack": 70,
     "def": 160,
+    "special": 70,
     "spd": 160,
     "speed": 80,
     "dex": 681,
@@ -5517,7 +6027,9 @@
       "fairy"
     ],
     "hp": 176,
+    "attack": 92,
     "def": 92,
+    "special": 119,
     "spd": 109,
     "speed": 49,
     "dex": 683,
@@ -5538,7 +6050,9 @@
       "fairy"
     ],
     "hp": 157,
+    "attack": 100,
     "def": 106,
+    "special": 105,
     "spd": 95,
     "speed": 92,
     "dex": 685,
@@ -5560,7 +6074,9 @@
       "psychic"
     ],
     "hp": 161,
+    "attack": 112,
     "def": 108,
+    "special": 88,
     "spd": 95,
     "speed": 93,
     "dex": 687,
@@ -5582,7 +6098,9 @@
       "psychic"
     ],
     "hp": 161,
+    "attack": 112,
     "def": 108,
+    "special": 88,
     "spd": 95,
     "speed": 93,
     "dex": 687,
@@ -5604,7 +6122,9 @@
       "water"
     ],
     "hp": 147,
+    "attack": 125,
     "def": 135,
+    "special": 74,
     "spd": 106,
     "speed": 88,
     "dex": 689,
@@ -5626,7 +6146,9 @@
       "water"
     ],
     "hp": 147,
+    "attack": 125,
     "def": 135,
+    "special": 74,
     "spd": 106,
     "speed": 88,
     "dex": 689,
@@ -5648,7 +6170,9 @@
       "dragon"
     ],
     "hp": 140,
+    "attack": 95,
     "def": 110,
+    "special": 117,
     "spd": 143,
     "speed": 64,
     "dex": 691,
@@ -5670,7 +6194,9 @@
       "dragon"
     ],
     "hp": 140,
+    "attack": 95,
     "def": 110,
+    "special": 117,
     "spd": 143,
     "speed": 64,
     "dex": 691,
@@ -5691,7 +6217,9 @@
       "water"
     ],
     "hp": 146,
+    "attack": 93,
     "def": 108,
+    "special": 140,
     "spd": 109,
     "speed": 79,
     "dex": 693,
@@ -5713,7 +6241,9 @@
       "normal"
     ],
     "hp": 137,
+    "attack": 75,
     "def": 72,
+    "special": 129,
     "spd": 114,
     "speed": 129,
     "dex": 695,
@@ -5735,7 +6265,9 @@
       "dragon"
     ],
     "hp": 157,
+    "attack": 141,
     "def": 139,
+    "special": 89,
     "spd": 79,
     "speed": 91,
     "dex": 697,
@@ -5757,7 +6289,9 @@
       "ice"
     ],
     "hp": 198,
+    "attack": 97,
     "def": 92,
+    "special": 119,
     "spd": 112,
     "speed": 78,
     "dex": 699,
@@ -5778,7 +6312,9 @@
       "fairy"
     ],
     "hp": 170,
+    "attack": 85,
     "def": 85,
+    "special": 130,
     "spd": 150,
     "speed": 80,
     "dex": 700,
@@ -5800,7 +6336,9 @@
       "flying"
     ],
     "hp": 153,
+    "attack": 112,
     "def": 95,
+    "special": 94,
     "spd": 83,
     "speed": 138,
     "dex": 701,
@@ -5822,7 +6360,9 @@
       "flying"
     ],
     "hp": 153,
+    "attack": 112,
     "def": 95,
+    "special": 94,
     "spd": 83,
     "speed": 138,
     "dex": 701,
@@ -5844,7 +6384,9 @@
       "fairy"
     ],
     "hp": 142,
+    "attack": 78,
     "def": 77,
+    "special": 101,
     "spd": 87,
     "speed": 121,
     "dex": 702,
@@ -5865,7 +6407,9 @@
       "dragon"
     ],
     "hp": 165,
+    "attack": 120,
     "def": 90,
+    "special": 130,
     "spd": 170,
     "speed": 100,
     "dex": 706,
@@ -5886,7 +6430,9 @@
       "dragon"
     ],
     "hp": 165,
+    "attack": 120,
     "def": 90,
+    "special": 130,
     "spd": 170,
     "speed": 100,
     "dex": 706,
@@ -5908,7 +6454,9 @@
       "fairy"
     ],
     "hp": 132,
+    "attack": 100,
     "def": 111,
+    "special": 100,
     "spd": 107,
     "speed": 95,
     "dex": 707,
@@ -5930,7 +6478,9 @@
       "grass"
     ],
     "hp": 160,
+    "attack": 130,
     "def": 96,
+    "special": 85,
     "spd": 102,
     "speed": 76,
     "dex": 709,
@@ -5952,7 +6502,9 @@
       "grass"
     ],
     "hp": 140,
+    "attack": 110,
     "def": 142,
+    "special": 78,
     "spd": 95,
     "speed": 104,
     "dex": 711,
@@ -5974,7 +6526,9 @@
       "grass"
     ],
     "hp": 140,
+    "attack": 110,
     "def": 142,
+    "special": 78,
     "spd": 95,
     "speed": 104,
     "dex": 711,
@@ -5996,7 +6550,9 @@
       "grass"
     ],
     "hp": 140,
+    "attack": 110,
     "def": 142,
+    "special": 78,
     "spd": 95,
     "speed": 104,
     "dex": 711,
@@ -6018,7 +6574,9 @@
       "grass"
     ],
     "hp": 140,
+    "attack": 110,
     "def": 142,
+    "special": 78,
     "spd": 95,
     "speed": 104,
     "dex": 711,
@@ -6039,7 +6597,9 @@
       "ice"
     ],
     "hp": 170,
+    "attack": 137,
     "def": 204,
+    "special": 64,
     "spd": 66,
     "speed": 48,
     "dex": 713,
@@ -6060,7 +6620,9 @@
       "ice"
     ],
     "hp": 170,
+    "attack": 137,
     "def": 204,
+    "special": 64,
     "spd": 66,
     "speed": 48,
     "dex": 713,
@@ -6082,7 +6644,9 @@
       "dragon"
     ],
     "hp": 160,
+    "attack": 90,
     "def": 100,
+    "special": 117,
     "spd": 100,
     "speed": 143,
     "dex": 715,
@@ -6104,7 +6668,9 @@
       "ghost"
     ],
     "hp": 153,
+    "attack": 127,
     "def": 95,
+    "special": 120,
     "spd": 120,
     "speed": 90,
     "dex": 724,
@@ -6126,7 +6692,9 @@
       "ghost"
     ],
     "hp": 153,
+    "attack": 127,
     "def": 95,
+    "special": 120,
     "spd": 120,
     "speed": 90,
     "dex": 724,
@@ -6148,7 +6716,9 @@
       "dark"
     ],
     "hp": 170,
+    "attack": 135,
     "def": 110,
+    "special": 100,
     "spd": 110,
     "speed": 80,
     "dex": 727,
@@ -6170,7 +6740,9 @@
       "fairy"
     ],
     "hp": 155,
+    "attack": 94,
     "def": 94,
+    "special": 146,
     "spd": 136,
     "speed": 80,
     "dex": 730,
@@ -6192,7 +6764,9 @@
       "flying"
     ],
     "hp": 155,
+    "attack": 140,
     "def": 95,
+    "special": 95,
     "spd": 95,
     "speed": 80,
     "dex": 733,
@@ -6214,7 +6788,9 @@
       "ice"
     ],
     "hp": 172,
+    "attack": 152,
     "def": 97,
+    "special": 82,
     "spd": 87,
     "speed": 63,
     "dex": 740,
@@ -6236,7 +6812,9 @@
       "ice"
     ],
     "hp": 172,
+    "attack": 152,
     "def": 97,
+    "special": 82,
     "spd": 87,
     "speed": 63,
     "dex": 740,
@@ -6257,7 +6835,9 @@
       "rock"
     ],
     "hp": 150,
+    "attack": 135,
     "def": 85,
+    "special": 75,
     "spd": 85,
     "speed": 132,
     "dex": 745,
@@ -6278,7 +6858,9 @@
       "rock"
     ],
     "hp": 150,
+    "attack": 135,
     "def": 85,
+    "special": 75,
     "spd": 85,
     "speed": 132,
     "dex": 745,
@@ -6299,7 +6881,9 @@
       "rock"
     ],
     "hp": 150,
+    "attack": 135,
     "def": 85,
+    "special": 75,
     "spd": 85,
     "speed": 132,
     "dex": 745,
@@ -6321,7 +6905,9 @@
       "water"
     ],
     "hp": 125,
+    "attack": 83,
     "def": 172,
+    "special": 73,
     "spd": 162,
     "speed": 55,
     "dex": 748,
@@ -6342,7 +6928,9 @@
       "ground"
     ],
     "hp": 175,
+    "attack": 145,
     "def": 120,
+    "special": 75,
     "spd": 105,
     "speed": 55,
     "dex": 750,
@@ -6364,7 +6952,9 @@
       "bug"
     ],
     "hp": 143,
+    "attack": 90,
     "def": 112,
+    "special": 70,
     "spd": 152,
     "speed": 62,
     "dex": 752,
@@ -6386,7 +6976,9 @@
       "fire"
     ],
     "hp": 143,
+    "attack": 84,
     "def": 80,
+    "special": 131,
     "spd": 80,
     "speed": 137,
     "dex": 758,
@@ -6407,7 +6999,9 @@
       "grass"
     ],
     "hp": 147,
+    "attack": 140,
     "def": 118,
+    "special": 70,
     "spd": 118,
     "speed": 92,
     "dex": 763,
@@ -6429,7 +7023,9 @@
       "psychic"
     ],
     "hp": 165,
+    "attack": 80,
     "def": 100,
+    "special": 110,
     "spd": 130,
     "speed": 80,
     "dex": 765,
@@ -6450,7 +7046,9 @@
       "fighting"
     ],
     "hp": 175,
+    "attack": 140,
     "def": 110,
+    "special": 60,
     "spd": 80,
     "speed": 100,
     "dex": 766,
@@ -6472,7 +7070,9 @@
       "fairy"
     ],
     "hp": 130,
+    "attack": 110,
     "def": 100,
+    "special": 70,
     "spd": 125,
     "speed": 116,
     "dex": 778,
@@ -6494,7 +7094,9 @@
       "dragon"
     ],
     "hp": 153,
+    "attack": 80,
     "def": 105,
+    "special": 155,
     "spd": 111,
     "speed": 56,
     "dex": 780,
@@ -6516,7 +7118,9 @@
       "dragon"
     ],
     "hp": 153,
+    "attack": 80,
     "def": 105,
+    "special": 155,
     "spd": 111,
     "speed": 56,
     "dex": 780,
@@ -6538,7 +7142,9 @@
       "fighting"
     ],
     "hp": 150,
+    "attack": 130,
     "def": 145,
+    "special": 120,
     "spd": 125,
     "speed": 105,
     "dex": 784,
@@ -6560,7 +7166,9 @@
       "steel"
     ],
     "hp": 173,
+    "attack": 107,
     "def": 125,
+    "special": 73,
     "spd": 105,
     "speed": 87,
     "dex": 823,
@@ -6582,7 +7190,9 @@
       "dragon"
     ],
     "hp": 145,
+    "attack": 130,
     "def": 100,
+    "special": 115,
     "spd": 80,
     "speed": 90,
     "dex": 841,
@@ -6604,7 +7214,9 @@
       "dragon"
     ],
     "hp": 185,
+    "attack": 105,
     "def": 100,
+    "special": 120,
     "spd": 100,
     "speed": 50,
     "dex": 842,
@@ -6625,7 +7237,9 @@
       "ground"
     ],
     "hp": 147,
+    "attack": 127,
     "def": 145,
+    "special": 85,
     "spd": 90,
     "speed": 91,
     "dex": 844,
@@ -6646,7 +7260,9 @@
       "ghost"
     ],
     "hp": 135,
+    "attack": 85,
     "def": 85,
+    "special": 154,
     "spd": 134,
     "speed": 90,
     "dex": 855,
@@ -6668,7 +7284,9 @@
       "fairy"
     ],
     "hp": 132,
+    "attack": 110,
     "def": 115,
+    "special": 156,
     "spd": 123,
     "speed": 49,
     "dex": 858,
@@ -6690,7 +7308,9 @@
       "fairy"
     ],
     "hp": 170,
+    "attack": 140,
     "def": 85,
+    "special": 115,
     "spd": 95,
     "speed": 80,
     "dex": 861,
@@ -6712,7 +7332,9 @@
       "psychic"
     ],
     "hp": 155,
+    "attack": 105,
     "def": 95,
+    "special": 130,
     "spd": 120,
     "speed": 90,
     "dex": 866,
@@ -6734,7 +7356,9 @@
       "ghost"
     ],
     "hp": 133,
+    "attack": 115,
     "def": 165,
+    "special": 70,
     "spd": 125,
     "speed": 50,
     "dex": 867,
@@ -6755,7 +7379,9 @@
       "fairy"
     ],
     "hp": 140,
+    "attack": 80,
     "def": 95,
+    "special": 130,
     "spd": 141,
     "speed": 84,
     "dex": 869,
@@ -6776,7 +7402,9 @@
       "fairy"
     ],
     "hp": 140,
+    "attack": 80,
     "def": 95,
+    "special": 130,
     "spd": 141,
     "speed": 84,
     "dex": 869,
@@ -6797,7 +7425,9 @@
       "fairy"
     ],
     "hp": 140,
+    "attack": 80,
     "def": 95,
+    "special": 130,
     "spd": 141,
     "speed": 84,
     "dex": 869,
@@ -6818,7 +7448,9 @@
       "fairy"
     ],
     "hp": 140,
+    "attack": 80,
     "def": 95,
+    "special": 130,
     "spd": 141,
     "speed": 84,
     "dex": 869,
@@ -6839,7 +7471,9 @@
       "fairy"
     ],
     "hp": 140,
+    "attack": 80,
     "def": 95,
+    "special": 130,
     "spd": 141,
     "speed": 84,
     "dex": 869,
@@ -6860,7 +7494,9 @@
       "fairy"
     ],
     "hp": 140,
+    "attack": 80,
     "def": 95,
+    "special": 130,
     "spd": 141,
     "speed": 84,
     "dex": 869,
@@ -6881,7 +7517,9 @@
       "fairy"
     ],
     "hp": 140,
+    "attack": 80,
     "def": 95,
+    "special": 130,
     "spd": 141,
     "speed": 84,
     "dex": 869,
@@ -6902,7 +7540,9 @@
       "fairy"
     ],
     "hp": 140,
+    "attack": 80,
     "def": 95,
+    "special": 130,
     "spd": 141,
     "speed": 84,
     "dex": 869,
@@ -6923,7 +7563,9 @@
       "fairy"
     ],
     "hp": 140,
+    "attack": 80,
     "def": 95,
+    "special": 130,
     "spd": 141,
     "speed": 84,
     "dex": 869,
@@ -6944,7 +7586,9 @@
       "fighting"
     ],
     "hp": 140,
+    "attack": 120,
     "def": 120,
+    "special": 90,
     "spd": 80,
     "speed": 95,
     "dex": 870,
@@ -6965,7 +7609,9 @@
       "fighting"
     ],
     "hp": 140,
+    "attack": 120,
     "def": 120,
+    "special": 90,
     "spd": 80,
     "speed": 95,
     "dex": 870,
@@ -6987,7 +7633,9 @@
       "dark"
     ],
     "hp": 133,
+    "attack": 115,
     "def": 78,
+    "special": 90,
     "spd": 78,
     "speed": 117,
     "dex": 877,
@@ -7009,7 +7657,9 @@
       "dark"
     ],
     "hp": 133,
+    "attack": 115,
     "def": 78,
+    "special": 90,
     "spd": 78,
     "speed": 117,
     "dex": 877,
@@ -7031,7 +7681,9 @@
       "ghost"
     ],
     "hp": 163,
+    "attack": 140,
     "def": 95,
+    "special": 120,
     "spd": 95,
     "speed": 162,
     "dex": 887,
@@ -7053,7 +7705,9 @@
       "psychic"
     ],
     "hp": 178,
+    "attack": 125,
     "def": 92,
+    "special": 125,
     "spd": 95,
     "speed": 85,
     "dex": 899,
@@ -7075,7 +7729,9 @@
       "rock"
     ],
     "hp": 145,
+    "attack": 155,
     "def": 115,
+    "special": 65,
     "spd": 90,
     "speed": 105,
     "dex": 900,
@@ -7097,7 +7753,9 @@
       "ghost"
     ],
     "hp": 195,
+    "attack": 132,
     "def": 85,
+    "special": 100,
     "spd": 95,
     "speed": 98,
     "dex": 902,
@@ -7119,7 +7777,9 @@
       "ghost"
     ],
     "hp": 195,
+    "attack": 132,
     "def": 85,
+    "special": 100,
     "spd": 95,
     "speed": 98,
     "dex": 902,
@@ -7141,7 +7801,9 @@
       "poison"
     ],
     "hp": 155,
+    "attack": 150,
     "def": 80,
+    "special": 60,
     "spd": 100,
     "speed": 140,
     "dex": 903,
@@ -7163,7 +7825,9 @@
       "poison"
     ],
     "hp": 160,
+    "attack": 135,
     "def": 115,
+    "special": 85,
     "spd": 85,
     "speed": 105,
     "dex": 904,
@@ -7185,7 +7849,9 @@
       "dark"
     ],
     "hp": 151,
+    "attack": 130,
     "def": 90,
+    "special": 101,
     "spd": 90,
     "speed": 143,
     "dex": 908,
@@ -7207,7 +7873,9 @@
       "ghost"
     ],
     "hp": 179,
+    "attack": 95,
     "def": 120,
+    "special": 130,
     "spd": 95,
     "speed": 86,
     "dex": 911,
@@ -7229,7 +7897,9 @@
       "fighting"
     ],
     "hp": 160,
+    "attack": 140,
     "def": 100,
+    "special": 105,
     "spd": 95,
     "speed": 105,
     "dex": 914,
@@ -7251,7 +7921,9 @@
       "fighting"
     ],
     "hp": 145,
+    "attack": 135,
     "def": 90,
+    "special": 90,
     "spd": 80,
     "speed": 125,
     "dex": 923,
@@ -7272,7 +7944,9 @@
       "normal"
     ],
     "hp": 149,
+    "attack": 95,
     "def": 90,
+    "special": 85,
     "spd": 95,
     "speed": 131,
     "dex": 925,
@@ -7293,7 +7967,9 @@
       "normal"
     ],
     "hp": 149,
+    "attack": 95,
     "def": 90,
+    "special": 85,
     "spd": 95,
     "speed": 131,
     "dex": 925,
@@ -7314,7 +7990,9 @@
       "rock"
     ],
     "hp": 175,
+    "attack": 120,
     "def": 150,
+    "special": 65,
     "spd": 110,
     "speed": 55,
     "dex": 934,
@@ -7336,7 +8014,9 @@
       "psychic"
     ],
     "hp": 160,
+    "attack": 80,
     "def": 120,
+    "special": 145,
     "spd": 100,
     "speed": 95,
     "dex": 936,
@@ -7358,7 +8038,9 @@
       "ghost"
     ],
     "hp": 150,
+    "attack": 145,
     "def": 100,
+    "special": 80,
     "spd": 120,
     "speed": 105,
     "dex": 937,
@@ -7379,7 +8061,9 @@
       "electric"
     ],
     "hp": 184,
+    "attack": 84,
     "def": 111,
+    "special": 123,
     "spd": 103,
     "speed": 65,
     "dex": 939,
@@ -7401,7 +8085,9 @@
       "fire"
     ],
     "hp": 140,
+    "attack": 128,
     "def": 85,
+    "special": 128,
     "spd": 85,
     "speed": 95,
     "dex": 952,
@@ -7423,7 +8109,9 @@
       "fire"
     ],
     "hp": 140,
+    "attack": 128,
     "def": 85,
+    "special": 128,
     "spd": 85,
     "speed": 95,
     "dex": 952,
@@ -7444,7 +8132,9 @@
       "psychic"
     ],
     "hp": 170,
+    "attack": 80,
     "def": 80,
+    "special": 121,
     "spd": 80,
     "speed": 125,
     "dex": 956,
@@ -7466,7 +8156,9 @@
       "steel"
     ],
     "hp": 160,
+    "attack": 95,
     "def": 97,
+    "special": 90,
     "spd": 125,
     "speed": 114,
     "dex": 959,
@@ -7487,7 +8179,9 @@
       "water"
     ],
     "hp": 175,
+    "attack": 90,
     "def": 92,
+    "special": 73,
     "spd": 82,
     "speed": 120,
     "dex": 964,
@@ -7508,7 +8202,9 @@
       "water"
     ],
     "hp": 175,
+    "attack": 90,
     "def": 92,
+    "special": 73,
     "spd": 82,
     "speed": 120,
     "dex": 964,
@@ -7529,7 +8225,9 @@
       "steel"
     ],
     "hp": 145,
+    "attack": 105,
     "def": 165,
+    "special": 80,
     "spd": 75,
     "speed": 85,
     "dex": 968,
@@ -7551,7 +8249,9 @@
       "poison"
     ],
     "hp": 158,
+    "attack": 75,
     "def": 110,
+    "special": 150,
     "spd": 101,
     "speed": 106,
     "dex": 970,
@@ -7573,7 +8273,9 @@
       "poison"
     ],
     "hp": 158,
+    "attack": 75,
     "def": 110,
+    "special": 150,
     "spd": 101,
     "speed": 106,
     "dex": 970,
@@ -7594,7 +8296,9 @@
       "ghost"
     ],
     "hp": 147,
+    "attack": 121,
     "def": 120,
+    "special": 70,
     "spd": 117,
     "speed": 88,
     "dex": 972,
@@ -7616,7 +8320,9 @@
       "ghost"
     ],
     "hp": 185,
+    "attack": 135,
     "def": 100,
+    "special": 70,
     "spd": 110,
     "speed": 110,
     "dex": 979,
@@ -7638,7 +8344,9 @@
       "psychic"
     ],
     "hp": 195,
+    "attack": 110,
     "def": 90,
+    "special": 130,
     "spd": 90,
     "speed": 80,
     "dex": 981,
@@ -7660,7 +8368,9 @@
       "steel"
     ],
     "hp": 175,
+    "attack": 155,
     "def": 140,
+    "special": 80,
     "spd": 105,
     "speed": 70,
     "dex": 983,
@@ -7682,7 +8392,9 @@
       "ghost"
     ],
     "hp": 162,
+    "attack": 80,
     "def": 115,
+    "special": 153,
     "spd": 111,
     "speed": 104,
     "dex": 1000,
@@ -7704,7 +8416,9 @@
       "ghost"
     ],
     "hp": 146,
+    "attack": 80,
     "def": 126,
+    "special": 141,
     "spd": 100,
     "speed": 90,
     "dex": 1013,
@@ -7726,7 +8440,9 @@
       "dragon"
     ],
     "hp": 165,
+    "attack": 125,
     "def": 150,
+    "special": 145,
     "spd": 85,
     "speed": 105,
     "dex": 1018,
@@ -7748,7 +8464,9 @@
       "dragon"
     ],
     "hp": 181,
+    "attack": 100,
     "def": 130,
+    "special": 140,
     "spd": 100,
     "speed": 64,
     "dex": 1019,
