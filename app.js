@@ -42,7 +42,7 @@ const species = {
 
 const curatedSpeciesIds = new Set(Object.keys(species));
 Object.entries(window.BATTLE_LENS_SPECIES || {}).forEach(([id, mon]) => {
-  if (!species[id]) species[id] = mon;
+  species[id] = species[id] ? { ...mon, ...species[id] } : mon;
 });
 
 const typeNames = { normal:"ノーマル", fire:"ほのお", water:"みず", electric:"でんき", grass:"くさ", ice:"こおり", fighting:"かくとう", poison:"どく", ground:"じめん", flying:"ひこう", psychic:"エスパー", bug:"むし", rock:"いわ", ghost:"ゴースト", dragon:"ドラゴン", dark:"あく", steel:"はがね", fairy:"フェアリー" };
@@ -153,6 +153,7 @@ const state = {
   foes:["garchomp","grimmsnarl","charizard","primarina","hippowdon","basculegion"],
   own:0, foe:0, mode:"damage", scanToken:0, scanController:null,
   analysisConfidence:null, analysisLabel:"AI解析", analysisWarnings:[],
+  detectedParty:null, ownRecognitionLabel:"選択中の登録パーティ",
   analysisMethod:"local",
   editParty:0, partyReturn:"capture"
 };
@@ -198,6 +199,67 @@ function effectiveSpeed(member) {
   return Math.floor((member.speed ?? species[member.id].speed) * (member.speedMult || 1));
 }
 
+function activeParty() {
+  return state.detectedParty || parties[state.party];
+}
+
+function partySignature(ids) {
+  return [...ids].sort().join("|");
+}
+
+function matchingPartyIndex(ids) {
+  const signature = partySignature(ids);
+  return parties.findIndex((party) => partySignature(party.members.map((member) => member.id)) === signature);
+}
+
+function genericPartyFromIds(ids) {
+  const members = ids.map((id) => {
+    const mon = species[id];
+    const moves = mon.types.flatMap((type) => [
+      move(`一般的な${typeNames[type]}技`, type, 80, "physical"),
+      move(`一般的な${typeNames[type]}特殊技`, type, 80, "special"),
+    ]).slice(0, 4);
+    return normalizeMember({
+      id,
+      ability:"不明",
+      item:"不明（一般情報）",
+      hp:mon.hp,
+      attack:mon.attack ?? 100,
+      def:mon.def,
+      special:mon.special ?? 100,
+      spd:mon.spd,
+      speed:mon.speed,
+      moves,
+    });
+  });
+  return {
+    id:`detected-${Date.now()}`,
+    name:"スクショ読取｜一般情報",
+    source:"選出画面・一般情報",
+    updatedAt:Date.now(),
+    members,
+  };
+}
+
+function applyDetectedOwnParty(result, reliable) {
+  state.detectedParty = null;
+  if (!reliable) {
+    state.ownRecognitionLabel = "自分側は未確定・選択中パーティを使用";
+    return;
+  }
+  const ids = analysisToFoes(result);
+  const match = matchingPartyIndex(ids);
+  if (match >= 0) {
+    state.party = match;
+    state.ownRecognitionLabel = `登録済み「${parties[match].name}」を使用`;
+    $("captureParty").value = String(match);
+    renderCaptureParty();
+    return;
+  }
+  state.detectedParty = genericPartyFromIds(ids);
+  state.ownRecognitionLabel = "未登録パーティ・一般情報を使用";
+}
+
 function showScreen(name) {
   state.screen = name;
   document.querySelectorAll("[data-screen]").forEach((el) => { el.hidden = el.dataset.screen !== name; el.classList.toggle("active", el.dataset.screen === name); });
@@ -207,8 +269,19 @@ function showScreen(name) {
 function fillPartySelects() {
   const options = parties.map((p, i) => `<option value="${i}">${escapeHtml(p.name)}</option>`).join("");
   state.party = Math.min(state.party, parties.length - 1);
-  [$("captureParty"), $("resultParty")].forEach((select) => { select.innerHTML = options; select.value = String(state.party); });
+  $("captureParty").innerHTML = options;
+  $("captureParty").value = String(state.party);
+  fillResultPartySelect();
   renderCaptureParty();
+}
+
+function fillResultPartySelect() {
+  const registered = parties.map((p, i) => `<option value="${i}">${escapeHtml(p.name)}</option>`).join("");
+  const detected = state.detectedParty
+    ? `<option value="detected">${escapeHtml(state.detectedParty.name)}</option>`
+    : "";
+  $("resultParty").innerHTML = detected + registered;
+  $("resultParty").value = state.detectedParty ? "detected" : String(state.party);
 }
 
 function renderCaptureParty() {
@@ -492,18 +565,10 @@ function bestUniqueLocalAssignment(slotCandidates) {
   return best?.selected || slotCandidates.map((candidates) => candidates[0]);
 }
 
-async function recognizeTeamPreviewLocally(file) {
-  const [src, icons] = await Promise.all([readFileAsDataUrl(file), localIconEntries()]);
-  const screen = await loadCanvasImage(src);
-  const canvas = document.createElement("canvas");
-  canvas.width = screen.naturalWidth;
-  canvas.height = screen.naturalHeight;
-  const context = canvas.getContext("2d", { willReadFrequently: true });
-  context.drawImage(screen, 0, 0);
-
+function recognizeLocalSide(context, canvas, icons, centerRatio, warningPrefix) {
   const regionSize = Math.max(104, Math.round(canvas.width * .055));
   const baseIconSize = Math.round(canvas.width * .0488);
-  const centerX = canvas.width * .801;
+  const centerX = canvas.width * centerRatio;
   const firstCenterY = canvas.height * .1705;
   const rowStep = canvas.height * .1173;
   const move = canvas.width / 437;
@@ -575,7 +640,7 @@ async function recognizeTeamPreviewLocally(file) {
       task: "team_preview",
       members,
       overall_confidence: overall,
-      warnings: weak.map(({ index }) => `${index + 1}枠目は要確認です`),
+      warnings: weak.map(({ index }) => `${warningPrefix}${index + 1}枠目は要確認です`),
     },
     reliable: weak.length === 0,
     scores: assigned.map((candidate) => candidate.score),
@@ -584,6 +649,26 @@ async function recognizeTeamPreviewLocally(file) {
       name: species[candidate.id].name,
       score: Number(candidate.score.toFixed(4)),
     }))),
+  };
+}
+
+async function recognizeTeamPreviewLocally(file) {
+  const [src, icons] = await Promise.all([readFileAsDataUrl(file), localIconEntries()]);
+  const screen = await loadCanvasImage(src);
+  const canvas = document.createElement("canvas");
+  canvas.width = screen.naturalWidth;
+  canvas.height = screen.naturalHeight;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.drawImage(screen, 0, 0);
+
+  const foe = recognizeLocalSide(context, canvas, icons, .801, "相手");
+  const own = recognizeLocalSide(context, canvas, icons, .323, "自分");
+  return {
+    ...foe,
+    ownResult: own.result,
+    ownReliable: own.reliable,
+    ownScores: own.scores,
+    ownCandidates: own.candidates,
   };
 }
 
@@ -693,7 +778,7 @@ function parsePartyText(text) {
 function teamCard(id, side, index) {
   const mon = species[id];
   const selected = side === "own" ? index === state.own : index === state.foe;
-  const speed = side === "own" ? effectiveSpeed(parties[state.party].members[index]) : `${speedRange(mon).min}–${speedRange(mon).max}`;
+  const speed = side === "own" ? effectiveSpeed(activeParty().members[index]) : `${speedRange(mon).min}–${speedRange(mon).max}`;
   return `<button class="pokemon-card${selected ? " selected" : ""}" type="button" data-side="${side}" data-index="${index}">
     ${spriteElement(id)}<span><b>${mon.name}</b><small>${mon.types.map(t => typeNames[t]).join(" / ")}</small></span><span class="speed-mini">S ${speed}</span>
   </button>`;
@@ -744,7 +829,7 @@ function renderCorrection() {
 }
 
 function renderResult() {
-  const party = parties[state.party];
+  const party = activeParty();
   state.own = Math.min(state.own, party.members.length - 1);
   state.foe = Math.min(state.foe, state.foes.length - 1);
   const attacker = party.members[state.own];
@@ -756,7 +841,7 @@ function renderResult() {
   $("defenderHero").innerHTML = hero(state.foes[state.foe], "相手配分を幅で計算");
   const methodLabel = state.analysisMethod === "ai" ? "AI補助" : "端末内認識";
   $("confidenceText").textContent = state.analysisConfidence == null ? methodLabel : `${methodLabel} ${state.analysisConfidence}%`;
-  $("profileText").textContent = `${state.analysisLabel || "選択画像"}・相手6体を検出`;
+  $("profileText").textContent = `${state.analysisLabel || "選択画像"}・${state.ownRecognitionLabel}`;
   renderDamage(attacker, defender);
   renderSpeed(attacker, defender);
   renderType(attacker, defender);
@@ -771,6 +856,9 @@ function setMode(mode) {
 
 function startTeamPreview(file, src, label = "選択画像") {
   setCaptureStatus();
+  state.detectedParty = null;
+  state.ownRecognitionLabel = "選択中の登録パーティ";
+  fillResultPartySelect();
   $("scanImage").src = src;
   state.analysisLabel = label;
   showScreen("scan");
@@ -788,7 +876,7 @@ function setCaptureStatus(message = "", isError = false) {
 
 function resetScanSteps() {
   const labels = [
-    [$("scanOpponent"), "端末内でアイコン照合"],
+    [$("scanOpponent"), "自分＋相手の12体を照合"],
     [$("scanTypes"), "タイプ・メガ候補"],
     [$("scanMatch"), "登録パーティと照合"],
   ];
@@ -846,8 +934,13 @@ async function runScan(file) {
     }
     if (token !== state.scanToken) return;
     state.foes = analysisToFoes(result);
+    applyDetectedOwnParty(local.ownResult, local.ownReliable);
+    fillResultPartySelect();
     state.analysisConfidence = result.overall_confidence;
-    state.analysisWarnings = result.warnings || [];
+    state.analysisWarnings = [
+      ...(result.warnings || []),
+      ...(local.ownReliable ? [] : ["自分側は認識できないため、選択中パーティを使用しています"]),
+    ];
     state.own = 0;
     state.foe = 0;
     progress.style.width = "78%";
@@ -861,7 +954,8 @@ async function runScan(file) {
     if (token !== state.scanToken) return;
     renderResult();
     showScreen("result");
-    if (state.analysisWarnings.length) toast("一部に要確認があります。認識を修正してください", 4200);
+    if (!local.ownReliable) toast("自分側は未確定のため、選択中の登録パーティを使用しました", 4200);
+    else if (state.analysisWarnings.length) toast("一部に要確認があります。認識を修正してください", 4200);
     else if (state.analysisMethod === "local") toast("iPhone内で無料判定しました");
   } catch (error) {
     if (error.name === "AbortError" || token !== state.scanToken) return;
@@ -916,8 +1010,18 @@ $("screenshotInput").addEventListener("change", async (event) => {
   }
 });
 
-$("captureParty").addEventListener("change", (e)=>{ state.party=Number(e.target.value); $("resultParty").value=e.target.value; renderCaptureParty(); });
-$("resultParty").addEventListener("change", (e)=>{ state.party=Number(e.target.value); $("captureParty").value=e.target.value; state.own=0; renderResult(); toast("使用パーティを切り替えました"); });
+$("captureParty").addEventListener("change", (e)=>{ state.party=Number(e.target.value); state.detectedParty=null; state.ownRecognitionLabel="選択中の登録パーティ"; fillResultPartySelect(); renderCaptureParty(); });
+$("resultParty").addEventListener("change", (e)=>{
+  if (e.target.value === "detected") return;
+  state.party=Number(e.target.value);
+  state.detectedParty=null;
+  state.ownRecognitionLabel=`登録済み「${parties[state.party].name}」を使用`;
+  $("captureParty").value=e.target.value;
+  state.own=0;
+  fillResultPartySelect();
+  renderResult();
+  toast("登録済みパーティへ切り替えました");
+});
 $("openPartyManager").addEventListener("click", openPartyManager);
 $("openBoxNav").addEventListener("click", openPartyManager);
 $("aiFallbackEnabled").checked = localStorage.getItem(AI_FALLBACK_STORE_KEY) !== "false";

@@ -1,0 +1,18 @@
+{
+  "name": "champions-battle-lens-ai-recognition",
+  "version": "0.10.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && cp -R assets/pokemon dist/assets/pokemon && cp -R assets/recognition dist/assets/recognition && cp -R assets/samples dist/assets/samples && cp config.js dist/config.js",
+    "preview": "vite preview",
+    "test": "node --test",
+    "worker:dev": "wrangler dev --config worker/wrangler.toml",
+    "worker:deploy": "wrangler deploy --config worker/wrangler.toml"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0",
+    "wrangler": "^4.28.1"
+  }
+}

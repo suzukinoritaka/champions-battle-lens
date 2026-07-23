@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
-  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body>
   <div class="orientation-guide" role="status">
@@ -30,7 +30,7 @@
         <button class="active" data-nav="battle" data-go="capture" type="button"><i class="ph ph-crosshair"></i><span>対戦</span></button>
         <button id="openBoxNav" data-nav="box" type="button"><i class="ph ph-circles-four"></i><span>マイボックス</span></button>
       </nav>
-      <div class="local-badge"><i class="ph ph-device-mobile"></i> 端末内で6体認識</div>
+      <div class="local-badge"><i class="ph ph-device-mobile"></i> 端末内で12体認識</div>
     </header>
 
     <section id="captureScreen" class="screen capture-screen active" data-screen="capture">
@@ -38,7 +38,7 @@
         <div class="capture-copy">
           <p class="kicker">BATTLE START</p>
           <h1>選出画面を<em>スクショ解析</em></h1>
-          <p>相手の6体を読み取り、ダメージ・素早さ・タイプ相性をすぐ表示します。</p>
+          <p>自分と相手の12体を読み取り、登録パーティの情報または一般情報で比較します。</p>
         </div>
         <label class="camera-cta" for="screenshotInput">
           <input id="screenshotInput" type="file" accept="image/*">
@@ -47,7 +47,7 @@
           <i class="ph ph-arrow-right"></i>
         </label>
         <div class="active-party-dock">
-          <div class="active-party-label"><span><i class="ph ph-check-circle"></i> 使用するパーティ</span><small>スクショ解析後、この6体で比較します</small></div>
+          <div class="active-party-label"><span><i class="ph ph-check-circle"></i> 使用するパーティ</span><small>自分側の6体が一致すれば登録情報を使います</small></div>
           <div id="capturePartySprites" class="capture-party-sprites" aria-hidden="true"></div>
           <select id="captureParty" class="party-select" aria-label="使用するパーティ"></select>
           <button id="openPartyManager" class="party-manage-button" type="button"><i class="ph ph-pencil-simple"></i> 編集</button>
@@ -72,7 +72,7 @@
         <div class="scan-progress"><span id="scanProgress"></span></div>
         <ul>
           <li class="done"><i class="ph ph-check-circle"></i> 画面レイアウト</li>
-          <li id="scanOpponent"><i class="ph ph-circle-dashed"></i> 相手ポケモン6体</li>
+          <li id="scanOpponent"><i class="ph ph-circle-dashed"></i> 自分＋相手の12体</li>
           <li id="scanTypes"><i class="ph ph-circle-dashed"></i> タイプ・メガ候補</li>
           <li id="scanMatch"><i class="ph ph-circle-dashed"></i> 登録パーティと照合</li>
         </ul>
@@ -83,7 +83,7 @@
     <section id="resultScreen" class="screen result-screen" data-screen="result" hidden>
       <div class="result-toolbar">
         <button id="retakeButton" class="toolbar-button danger" type="button"><i class="ph ph-camera-rotate"></i> 別のスクショ</button>
-        <div class="recognition-badge"><i class="ph ph-sparkle"></i><span><b id="confidenceText">認識 96%</b><small id="profileText">相手6体を検出</small></span></div>
+        <div class="recognition-badge"><i class="ph ph-sparkle"></i><span><b id="confidenceText">認識 96%</b><small id="profileText">自分＋相手の12体を検出</small></span></div>
         <select id="resultParty" class="party-select" aria-label="使用パーティ"></select>
         <button id="toggleCorrection" class="toolbar-button" type="button"><i class="ph ph-pencil-simple"></i> 認識を修正</button>
       </div>
@@ -179,9 +179,9 @@
   </main>
 
   <div id="toast" class="toast" role="status" hidden></div>
-  <script src="config.js?v=10"></script>
-  <script src="assets/recognition/species.js?v=10"></script>
-  <script src="assets/recognition/manifest.js?v=10"></script>
-  <script src="app.js?v=10" type="module"></script>
+  <script src="config.js?v=11"></script>
+  <script src="assets/recognition/species.js?v=11"></script>
+  <script src="assets/recognition/manifest.js?v=11"></script>
+  <script src="app.js?v=11" type="module"></script>
 </body>
 </html>
