@@ -1,7 +1,7 @@
 const CACHE = "battle-lens-camera-v9";
 const ASSETS = [
-  "./", "index.html", "styles.css", "app.js", "config.js", "manifest.webmanifest", "icon.svg",
-  "assets/recognition/manifest.json", "assets/recognition/manifest.js",
+  "./", "index.html", "styles.css?v=8", "app.js?v=8", "config.js?v=8", "manifest.webmanifest", "icon.svg",
+  "assets/recognition/manifest.json", "assets/recognition/manifest.js?v=8",
   "assets/samples/team-koko.jpg", "assets/samples/team-gs-ces.jpg", "assets/samples/team-yusk.jpg"
 ];
 
